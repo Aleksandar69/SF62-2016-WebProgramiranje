@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="SF-62-2016-Bioskop">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="SF-62-2016-Bioskop"/>
+        <property name="java-output-path" value="/SF-62-2016-Bioskop/build/classes"/>
+    </wb-module>
+</project-modules>

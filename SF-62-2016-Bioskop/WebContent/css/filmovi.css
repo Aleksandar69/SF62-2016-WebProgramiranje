@@ -1,0 +1,77 @@
+#tabelaFilm{
+  text-align: center;
+      font-size: 14px;
+      background-color: #0c101e;
+      margin: 0 auto;
+      margin-top: 100px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 5px #FF652F;
+      color: #d0d0d0;
+}
+#tabelaFilm th,#tabelaFilm td{
+  padding: 10px;
+}
+#tabelaFilm input{
+  background: 0;
+    border-radius: 10px;
+    padding: 5px;
+    color: #d0d0d0;
+    outline: 0 !important;
+    width: 150px;
+}
+th{
+  font-size: 22px;
+}
+tr{
+	transition:0.5s all ease;
+	cursor:pointer;
+}
+tr:hover{
+	background-color:grey;
+}
+tr:first-child{
+  background-color: rgba(255,255,255,0.1);
+}
+.pogledajMovie::after{
+  content: "Pogledaj";
+  background-color: lime;
+  color: black;
+  display: block;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.5s all ease;
+}
+.pogledajMovie:hover{
+  box-shadow: 0px 0px 5px lime;
+}
+.editMovie::after{
+	content:"Izmena";
+	background-color:yellow;
+	display: block;
+	top:0;
+	left:0;
+  border-radius:10px;
+  padding:5px;
+  cursor:pointer;
+}
+.deleteMovie::after{
+	content:"Obrisi";
+	background-color:crimson;
+	display: block;
+	top:0;
+	left:0;
+  border-radius:10px;
+  padding:5px;
+  cursor:pointer;
+}
+.movie_name{
+	font-size: 22px;
+    text-decoration: underline;
+    font-weight: 600;
+}
+.editMovie{
+  color: black;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Filmovi</title>
+<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
+<meta charset="utf-8">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="css\bootstrap-4.3.1-dist\css\bootstrap.css">
+<script src="css\bootstrap-4.3.1-dist\js\bootstrap.js" charset="utf-8"></script>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/scrollbarstyle.css">
+<link rel="shortcut icon" href="css/favicon.png" />
+<link
+	href="https://fonts.googleapis.com/css?family=Bebas+Neue|Roboto:400,700&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+	crossorigin="anonymous">
+<script type="text/javascript" src="js/main.js" charset="utf-8"></script>
+<link rel="stylesheet" href="css/nav.css">
+<link rel="stylesheet" href="css/filmovi.css">
+<script type="text/javascript" src="js/w3.js" charset="utf-8"></script>
+
+
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-xl navbar-dark" id="navdiv">
+		<a class="navbar-brand" href="./" id="nav_logo"><span><i
+				class="fas fa-video"></i> KinoZvijezda</span></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#CollapseOptions" aria-controls="CollapseOptions"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+
+		<div class="collapse navbar-collapse" id="CollapseOptions">
+			<ul class="navbar-nav ml-auto">
+				<a class="nav-opcija" id="nav_filmovi" href="./filmovi.html">
+					<li class="nav-item povecati">Filmovi</li>
+				</a>
+				<a class="nav-opcija" id="nav_repertoar" href="./index.html">
+					<li class="nav-item povecati">Repertoar</li>
+				</a>
+				<a class="nav-opcija" id="nav_adminPanel" href="./admin_panel.html">
+					<li class="nav-item povecati">Admin Panel</li>
+				</a>
+				<a class="nav-opcija" id="nav_profil" href="./moj_profil.html">
+					<li class="nav-item povecati">Moj Profil</li>
+				</a>
+				<a class="nav-opcija" id="nav_login" href="./login.html">
+					<li class="nav-item povecati">Login</li>
+				</a>
+				<a class="nav-opcija" id="nav_logout" href="#">
+					<li class="nav-item povecati">Log Out</li>
+				</a>
+			</ul>
+
+		</div>
+
+	</nav>
+
+	<div id="notificationdiv"></div>
+	<script src="js/nav.js" charset="utf-8"></script>
+
+	<table id="tabelaFilm">
+		<tr>
+			<th><input id="f_naziv" /></th>
+			<th><input id="f_trajanje" type="number" /></th>
+			<th><select id="f_zanrovi" multiple></select></th>
+			<th><input id="f_godina" type="number" /></th>
+			<th><input id="f_distributer" /></th>
+			<th><input id="f_zemlja" /></th>
+			<th>
+				<button id="filterBtnFilm" class="confirmbtn">Filtriraj</button>
+			</th>
+		</tr>
+		<tr>
+			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(1)')">Naziv</th>
+			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(2)')">Trajanje</th>
+			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(3)')">Zanrovi</th>
+			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(4)')">Godina
+				Proizvodnje</th>
+			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(5)')">Distributer</th>
+			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(6)')">Zemlja
+				Porekla</th>
+		</tr>
+	</table>
+
+	<p id="errorMsg"></p>
+
+
+
+	<script type="text/javascript" src="js/filmovi.js"></script>
+</body>
+</html>
