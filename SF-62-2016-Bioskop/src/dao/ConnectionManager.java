@@ -5,6 +5,8 @@ import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSourceFactory;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Properties;
 
 public class ConnectionManager {
@@ -52,5 +54,23 @@ public class ConnectionManager {
 		}
 		return null;
 	}
+	
+	public static void close(Connection myConn, Statement myStmnt, ResultSet myRS) {
+		try {
+			if (myRS != null) {
+				myRS.close();
+			}
+			if (myStmnt != null) {
+				myStmnt.close();
+			}
+			if (myConn != null) {
+				myConn.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 }
+

@@ -5,7 +5,7 @@ var params = {
 
 $.post("FilmoviServlet", params, function(data){
 	
-	var res = JSON.parse(data);
+	let res = JSON.parse(data);
 	if(res.status){
 		for(i=0; i<res.filmovi.length; i++){
 			let film = res.filmovi[i];
@@ -19,5 +19,11 @@ $.post("FilmoviServlet", params, function(data){
 			tr.innerHTML = "<td class='movie_name' data-filmid='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+dugmicitamoneki+"</td>";
 			tabelaFilm.appendChild(tr);	
 		}
+		$(".pogledajMovie").on("click", function(){
+			let id= this.getAttribute("data-movieID");
+			if(id>0 && id!=null && id!=undefined){
+				window.location.href="prikazFilma.html?id="+id;
+			}
+		})
 	}
 });

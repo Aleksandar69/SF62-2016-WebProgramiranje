@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+<script src="./js/jquery-3.5.1.js"></script>
+<link rel="stylesheet" href="./css/bootstrap-4.3.1-dist/css/bootstrap.css">
+<link rel="stylesheet" href="./css/main.css">
+<script src="./css/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+<link rel="stylesheet" href="./css/nav.css">
+<script src="./js/main.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-xl navbar-dark" id="navdiv">
+       <a class="navbar-brand" href="./" id="nav_logo"><span><i class="fas fa-video"></i> Bioskopcic</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#CollapseOptions" aria-controls="CollapseOptions" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="CollapseOptions">
+          <ul class="navbar-nav ml-auto">
+            <a class="nav-opcija" id="nav_filmovi" href="./filmovi.html">
+              <li class="nav-item povecati">
+                Filmovi
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_repertoar" href="./index.html">
+              <li class="nav-item povecati">
+                Repertoar
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_adminPanel" href="./admin_panel.html">
+              <li class="nav-item povecati">
+                Admin Panel
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_profil" href="./moj_profil.html">
+              <li class="nav-item povecati">
+                Moj Profil
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_login" href="./login.html">
+              <li class="nav-item povecati">
+                Login
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_logout" href="#">
+              <li class="nav-item povecati">
+                Log Out
+              </li>
+            </a>
+          </ul>
+
+        </div>
+  </nav>
+  
+  <div id="notificationdiv">
+
+  </div>
+  <script src="./js/nav.js" charset="utf-8"></script>
+  
+  <div class="col-sm-4 margin0 talcen logregdiv">
+  	<label>Username: </label> <input id="input_username" required><br>
+  	<label>Password: </label> <input id="input_password" required type="password"><br>
+  	<button id="loginbutton" class="confirmbtn margin10">Login</button><br>
+  	<p class="talcen margin0"> <a href="registracija.html">Registracija</a>
+  	
+  </div>
+
+<script src="./js/login.js"></script>
+</body>
+</html>
