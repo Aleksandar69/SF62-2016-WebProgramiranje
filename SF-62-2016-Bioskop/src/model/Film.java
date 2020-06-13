@@ -14,8 +14,11 @@ public class Film {
 	private String zemljaPorjekla;
 	private int godinaProizvodnje;
 	private String opis;
+	private String status;
 	
 	public Film() {}
+	
+
 	
 	public Film(int iD, String naziv, String reziser, String glumci, ArrayList<Zanr> zanrovi, int trajanje, String distributer,
 			String zemljaPorjekla, int godinaProizvodnje, String opis) {

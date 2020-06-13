@@ -3,20 +3,24 @@ package model;
 import java.util.Date;
 
 public class Korisnik {
-	
+	private String id;
 	private String korIme;
 	private String lozinka;
 	private Date datumRegistracije;
 	private Uloga uloga;
+	private String status;
+	
 	
 	public Korisnik() {}
 	
-	public Korisnik(String korIme, String lozinka, Date datumRegistracije, Uloga uloga) {
+	public Korisnik(String id,String korIme, String lozinka, Date datumRegistracije, Uloga uloga, String status) {
 		super();
+		this.id= id;
 		this.korIme = korIme;
 		this.lozinka = lozinka;
 		this.datumRegistracije = datumRegistracije;
 		this.uloga = uloga;
+		this.status = status;
 	}
 
 	public String getKorIme() {
@@ -49,6 +53,22 @@ public class Korisnik {
 
 	public void setUloga(Uloga uloga) {
 		this.uloga = uloga;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	

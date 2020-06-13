@@ -39,7 +39,7 @@ public class FilmoviServlet extends HttpServlet {
 	  
 	  private JSONObject ucitajFilmove() {
 		  
-			Boolean status = false;
+			boolean status = false;
 			
 			System.out.println("U metodi UcitajFilmove");
 
@@ -62,6 +62,27 @@ public class FilmoviServlet extends HttpServlet {
 			res.put("filmovi", filmovi);
 			
 			return res;
+	  }
+	  
+	  private JSONObject ucitajJedanFilm(String idFilma) {
+		  boolean status = false;
+		  JSONObject res = new JSONObject();
+		  System.out.println("U metodi ucitajJedanFilm()");
+		  
+		  JSONObject film = null;
+		  
+		  try {
+			film = filmoviDAO.prikaziJedanFilm(idFilma);
+			if( film!= null) {
+				status = true;
+			}
+		} catch (NumberFormatException | SQLException e) {
+			e.printStackTrace();
+		}
+		  res.put("status", status);
+		  res.put("film", film);
+		  
+		  return res;
 	  }
 	 
 
@@ -91,8 +112,11 @@ public class FilmoviServlet extends HttpServlet {
 		case "ucitajFilmove":
 			out.print(ucitajFilmove());
 		break;
-		}
 		
+		case "ucitajFilm":
+			out.print(ucitajJedanFilm(filmID));
+			break;
+		}
 	}
 
 }
