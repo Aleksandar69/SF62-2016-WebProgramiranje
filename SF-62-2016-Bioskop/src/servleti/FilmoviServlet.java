@@ -84,6 +84,18 @@ public class FilmoviServlet extends HttpServlet {
 		  
 		  return res;
 	  }
+	  
+	  private JSONObject uzmiZanrove() {
+		  JSONObject res = new JSONObject();
+		  ArrayList<String> listaZanrova = filmoviDAO.uzmiSveZanrove();
+		  boolean status = false;
+		  if(listaZanrova.size()>0) {
+			  status = true;
+		  }
+		  res.put("status", status);
+		  res.put("zanrovi", listaZanrova);
+		  return res;
+	  }
 	 
 
 	/**
@@ -116,7 +128,11 @@ public class FilmoviServlet extends HttpServlet {
 		case "ucitajFilm":
 			out.print(ucitajJedanFilm(filmID));
 			break;
+		
+		case "uzmiZanrove":
+			out.print(uzmiZanrove());
+	
 		}
-	}
+		}
 
 }

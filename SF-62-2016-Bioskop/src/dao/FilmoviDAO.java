@@ -179,4 +179,38 @@ public class FilmoviDAO {
 			return null;
 			
 	}
+	
+	public static ArrayList<String> uzmiSveZanrove(){
+		ArrayList<String> zanrovi = new ArrayList<String>();
+		
+		
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = ConnectionManager.getConnection();
+			
+			String query = "SELECT Zanr FROM Zanrovi";
+			
+			stmnt = conn.prepareStatement(query);
+			
+			rs = stmnt.executeQuery();
+			
+			while(rs.next()) {
+				int index = 1;
+				String zanr = rs.getString(index++);
+				zanrovi.add(zanr);
+			}
+			
+		}
+		catch(Exception e) {
+			System.out.println("puklo kod loadovanja zanrova");
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close(conn, stmnt, rs);
+		}
+		return zanrovi;
+	}
 }

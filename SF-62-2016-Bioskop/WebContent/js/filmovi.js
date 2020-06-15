@@ -24,6 +24,29 @@ $.post("FilmoviServlet", params, function(data){
 			if(id>0 && id!=null && id!=undefined){
 				window.location.href="prikazFilma.html?id="+id;
 			}
-		})
+		});
+		$(".movie_name").on("click", function(){
+			var id = this.getAttribute('data-filmid');
+			if(id>0 && id!=null && id!=undefined){
+				window.location.href="prikazFilma.html?id="+id;
+			}
+		});
 	}
+});
+
+
+var params = {
+		action: "uzmiZanrove"
+	}
+	$.post('FilmoviServlet', params, function(data) {
+		let odg = JSON.parse(data);
+		if(odg.status){
+			for(i=0;i<odg.zanrovi.length;i++){
+				let op = document.createElement('option');
+				op.value=odg.zanrovi[i];
+				op.innerText = odg.zanrovi[i];
+				document.getElementById('f_zanrovi').append(op);
+			}
+		}
+
 });
