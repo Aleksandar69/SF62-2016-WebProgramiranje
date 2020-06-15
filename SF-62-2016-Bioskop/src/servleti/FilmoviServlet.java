@@ -97,6 +97,45 @@ public class FilmoviServlet extends HttpServlet {
 		  return res;
 	  }
 	 
+	  
+	  private JSONObject filterFilm(HttpServletRequest request) {
+		  String naziv = request.getParameter("naziv");
+		  int  trajanje = 0;
+		 	try {
+	    		trajanje = Integer.valueOf(request.getParameter("trajanje"));
+	    	}
+	    	catch(Exception e) {
+	    		System.out.println("Greska pri uzimanju trajanja koje nema vrijednost u filteru");
+	    		e.printStackTrace();
+	    	}
+	    	System.out.println("posle exceptiona");
+
+		 	String zanrovi = request.getParameter("zanr");
+	    	String opis = request.getParameter("opis");
+	    	String glumci = request.getParameter("glumci");
+	    	String reziser = request.getParameter("reziser");
+	    	String godina = request.getParameter("godina");
+	    	String distributer = request.getParameter("distributer");
+	    	String zemlja = request.getParameter("zemlja");
+	    	Boolean status = false;
+	    	ArrayList<JSONObject> filmovi = new ArrayList<JSONObject>();
+	    	try {
+	    		filmovi = filmoviDAO.uzmiOdredjeneFilmove(naziv,trajanje,zanrovi,opis,glumci,reziser,godina,distributer,zemlja);
+	    	
+	    		if(filmovi.size()>0) {
+	    			status = true;
+	    		}
+	    	}
+	    	catch (Exception e) {
+	    		System.out.println("Puklo je ovde na ucitaj sve filmove.");
+	    	}
+	    	JSONObject res = new JSONObject();
+
+		    res.put("status", status);
+		    res.put("filmovi", filmovi);
+		    
+		    return res;
+	  }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -131,7 +170,11 @@ public class FilmoviServlet extends HttpServlet {
 		
 		case "uzmiZanrove":
 			out.print(uzmiZanrove());
-	
+			break;
+		case "filterFilm":
+			out.print(filterFilm(request));
+			break;
+			
 		}
 		}
 

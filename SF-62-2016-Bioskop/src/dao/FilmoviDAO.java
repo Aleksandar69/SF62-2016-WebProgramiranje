@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
 import model.Zanr;
 import model.*;
 
@@ -47,44 +49,13 @@ public class FilmoviDAO {
 
 				ArrayList<Zanr> Zanrovi_n = new ArrayList<Zanr>();
 				String[] Zanrs = Zanrovi.split(";");
-				if (Zanrs.length > 0) {
-					for (String znr : Zanrs) {
-						try {
-							Zanrovi_n.add(Zanr.valueOf(znr));
-						} catch (Exception e) {
-							System.out.println("Greska kod Zanra u FilmoviDAO - " + e);
-						}
-					}
-				} else {
-					Zanrovi_n.add(Zanr.valueOf("Prazno"));
-				}
 
-				Film film = new Film(ID, Naziv, Reziser, Glumci, Zanrovi_n, Trajanje, Distributer, Zemlja_Porekla,
-						Godina_Proizvodnje, Opis);
+			
 
-				JSONObject jsonObj = new JSONObject();
+				JSONObject jsonObj = napraviJSONObjekat(ID, Naziv, Reziser, Glumci, Zanrovi, Trajanje, Distributer, Zemlja_Porekla,
+						Godina_Proizvodnje, Opis, status);
 
-				jsonObj.put("ID", film.getID());
-				jsonObj.put("Naziv", film.getNaziv());
-				jsonObj.put("Reziser", film.getReziser());
-				String[] glumciStrArr = film.getGlumci().split(";");
-				ArrayList<String> glumci = new ArrayList<String>();
-				for (String glumac : glumciStrArr) {
-					glumci.add(glumac);
-				}
 
-				jsonObj.put("Glumci", glumci);
-
-				ArrayList<String> zanrovi = new ArrayList<String>();
-				for (Zanr zanr : film.getZanrovi()) {
-					zanrovi.add(zanr.toString());
-				}
-				jsonObj.put("Zanrovi", zanrovi);
-				jsonObj.put("Trajanje", film.getTrajanje());
-				jsonObj.put("Distributer", film.getDistributer());
-				jsonObj.put("ZemljaPorjekla", film.getZemljaPorjekla());
-				jsonObj.put("Godina_Proizvodnje", film.getGodinaProizvodnje());
-				jsonObj.put("Opis", film.getOpis());
 
 				if (status.equalsIgnoreCase("active")) {
 					sviFilmovi.add(jsonObj);
@@ -114,57 +85,20 @@ public class FilmoviDAO {
 			
 			if(rs.next()) {
 				int index = 1;
-				int id= Integer.valueOf(rs.getString(index++));
-				String naziv = rs.getString(index++);
-				String reziser = rs.getString(index++);
-				String glumci = rs.getString(index++);
-				String zanrovi = rs.getString(index++);
-				int trajanje = Integer.valueOf(rs.getString(index++));
-				String distributer = rs.getString(index++);
-				String zemlja_porjekla = rs.getString(index++);
-				int godina_proizvodnje = rs.getShort(index++);
-				String opis = rs.getString(index++);
+				int ID= Integer.valueOf(rs.getString(index++));
+				String Naziv = rs.getString(index++);
+				String Reziser = rs.getString(index++);
+				String Glumci = rs.getString(index++);
+				String Zanrovi = rs.getString(index++);
+				int Trajanje = Integer.valueOf(rs.getString(index++));
+				String Distributer = rs.getString(index++);
+				String Zemlja_Porijekla = rs.getString(index++);
+				int Godina_Proizvodnje = rs.getShort(index++);
+				String Opis = rs.getString(index++);
 				String status = rs.getString(index++);
 				
-				ArrayList<Zanr> zanroviList = new ArrayList<Zanr>();
-				String[] zanroviArr = zanrovi.split(";");
-				for(String z : zanroviArr) {
-					try {
-						zanroviList.add(Zanr.valueOf(z));
-					}
-					catch(Exception e) {
-						System.out.println("Greska kod unosa zanra" + e);
-						e.printStackTrace();
-					}
-				}
-				
-				Film film = new Film(id, naziv, reziser, glumci, zanroviList, trajanje,
-						distributer, zemlja_porjekla,godina_proizvodnje, opis);
-				
-			JSONObject jsonObj = new JSONObject();
-			jsonObj.put("ID", film.getID());
-			jsonObj.put("Naziv", film.getNaziv());
-			jsonObj.put("Reziser", film.getReziser());
-			String[] glumciArr = film.getGlumci().split(";");
-			ArrayList<String> glimciList = new ArrayList<String>();
-			for(String glumac : glumciArr) {
-				glimciList.add(glumac);
-			}
-			
-			jsonObj.put("Glumci", glimciList);
-			
-			ArrayList<String> zanroviLista = new ArrayList<String>();
-			for(Zanr z : film.getZanrovi()) {
-				zanroviLista.add(z.toString());
-			}
-			
-			jsonObj.put("Zanrovi", zanroviLista);
-			jsonObj.put("Trajanje",film.getTrajanje());
-			jsonObj.put("Distributer", film.getDistributer());
-			jsonObj.put("Zemlja_Porijekla", film.getZemljaPorjekla());
-			jsonObj.put("Godina_Proizvodnje",film.getGodinaProizvodnje());
-			jsonObj.put("Opis", film.getOpis());
-			jsonObj.put("status", status);
+				JSONObject jsonObj = napraviJSONObjekat(ID, Naziv, Reziser, Glumci, Zanrovi, Trajanje, Distributer, Zemlja_Porijekla,
+				Godina_Proizvodnje, Opis, status);
 			
 			if(status.equalsIgnoreCase("active")) {
 				return jsonObj;
@@ -180,7 +114,72 @@ public class FilmoviDAO {
 			
 	}
 	
-	public static ArrayList<String> uzmiSveZanrove(){
+public ArrayList<JSONObject> uzmiOdredjeneFilmove(String naziv1,int trajanje1,String zanrovi1,String opis1,String glumci1,String reziser1,String godina1,String distributer1,String zemlja1) throws SQLException{
+		
+		ArrayList<JSONObject> listaFilmova = new ArrayList<JSONObject>();
+		
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = ConnectionManager.getConnection();
+			
+			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,,Godina_Proizvodnje,Opis,Status FROM Filmovi"
+					+ " WHERE Naziv LIKE ? AND Reziser LIKE ? AND Glumci LIKE ? AND Zanrovi LIKE ? AND Trajanje>? AND Distributer LIKE ? AND  LIKE ? AND Godina_Proizvodnje LIKE ? AND Opis LIKE ?";
+		
+		stmnt = conn.prepareStatement(query);
+		stmnt.setString(1, "%"+naziv1+"%");
+		stmnt.setString(2, "%"+reziser1+"%");
+		stmnt.setString(3, "%"+glumci1+ "%");
+		stmnt.setString(4, "%"+ zanrovi1 + "%");
+		stmnt.setInt(5, trajanje1);
+		stmnt.setString(6, "%"+ distributer1 + "%");
+		stmnt.setString(7, "%"+ zemlja1 + "%");
+		stmnt.setString(8, "%"+godina1 + "%");
+		stmnt.setString(9, "%"+ opis1 + "%");
+		
+		rs = stmnt.executeQuery();
+		
+		while(rs.next()) {
+			int index = 1;
+			int ID = Integer.valueOf(rs.getString(index++));
+			String Naziv = rs.getString(index++);
+			String Reziser = rs.getString(index++);
+			String Glumci = rs.getString(index++);
+			String Zanrovi = rs.getString(index++);
+			int Trajanje = Integer.valueOf(rs.getString(index++));
+			String Distributer = rs.getString(index++);
+			String Zemlja_Porijekla = rs.getString(index++);
+			int Godina_Proizvodnje = Integer.valueOf(rs.getString(index++));
+			String Opis = rs.getString(index++);
+			String status = rs.getString(index++);
+			
+			ArrayList<Zanr> Zanrovi_n = new ArrayList<Zanr>();
+			String[] Zanrs = Zanrovi.split(";");
+			if (Zanrs.length > 0) {
+				for (String znr : Zanrs) {
+					try {
+						Zanrovi_n.add(Zanr.valueOf(znr));
+					} catch (Exception e) {
+						System.out.println("Greska kod Zanra u FilmoviDAO - " + e);
+					}
+				}
+			} else {
+				Zanrovi_n.add(Zanr.valueOf("Prazno"));
+			}
+			
+			JSONObject jedanFilm = napraviJSONObjekat(ID, Naziv, Reziser, Glumci, Zanrovi, Trajanje, Distributer, Zemlja_Porijekla, Godina_Proizvodnje, Opis, status);
+			listaFilmova.add(jedanFilm);
+		}
+		return listaFilmova;
+		}
+		finally{
+			ConnectionManager.close(conn, stmnt, rs);
+		}
+	}
+	
+	public ArrayList<String> uzmiSveZanrove(){
 		ArrayList<String> zanrovi = new ArrayList<String>();
 		
 		
@@ -213,4 +212,50 @@ public class FilmoviDAO {
 		}
 		return zanrovi;
 	}
+
+public JSONObject napraviJSONObjekat(int id, String naziv, String reziser, String glumci, String zanrovi, int trajanje, String distributer, String zemlja_porjekla, int godina_proizvodnje, String opis, String status) {
+	ArrayList<Zanr> listaZanrova = new ArrayList<Zanr>();
+	String[] Zanrs = zanrovi.split(";");
+	if (Zanrs.length > 0) {
+		for (String znr : Zanrs) {
+			try {
+				listaZanrova.add(Zanr.valueOf(znr));
+			} catch (Exception e) {
+				System.out.println("Greska kod Zanra u FilmoviDAO - " + e);
+			}
+		}
+	} else {
+		listaZanrova.add(Zanr.valueOf("Prazno"));
+	}
+	
+	Film film = new Film(id, naziv, reziser, glumci, listaZanrova, trajanje, distributer, zemlja_porjekla, godina_proizvodnje, opis);
+
+	
+	JSONObject jsonObj = new JSONObject();
+	jsonObj.put("ID", film.getID());
+	jsonObj.put("Naziv", film.getNaziv());
+	jsonObj.put("Reziser", film.getReziser());
+	String[] glumciArr = film.getGlumci().split(";");
+	ArrayList<String> glimciList = new ArrayList<String>();
+	for(String glumac : glumciArr) {
+		glimciList.add(glumac);
+	}
+	
+	jsonObj.put("Glumci", glimciList);
+	
+	ArrayList<String> zanroviLista = new ArrayList<String>();
+	for(Zanr z : film.getZanrovi()) {
+		zanroviLista.add(z.toString());
+	}
+	
+	jsonObj.put("Zanrovi", zanroviLista);
+	jsonObj.put("Trajanje",film.getTrajanje());
+	jsonObj.put("Distributer", film.getDistributer());
+	jsonObj.put("Zemlja_Porekla", film.getZemljaPorjekla());
+	jsonObj.put("Godina_Proizvodnje",film.getGodinaProizvodnje());
+	jsonObj.put("Opis", film.getOpis());
+	jsonObj.put("status", status);
+	
+	return jsonObj;
+}
 }
