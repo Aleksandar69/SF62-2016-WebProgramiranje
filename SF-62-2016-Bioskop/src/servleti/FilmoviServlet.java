@@ -64,6 +64,15 @@ public class FilmoviServlet extends HttpServlet {
 			return res;
 	  }
 	  
+	  private JSONObject obrisiFilm(String id) {
+		  boolean status = filmoviDAO.logickoBrisanjeFilm(id);
+		  JSONObject res = new JSONObject();
+		  
+		  res.put("status", status);
+		  
+		  return res;
+	  }
+	  
 	  private JSONObject ucitajJedanFilm(String idFilma) {
 		  boolean status = false;
 		  JSONObject res = new JSONObject();
@@ -174,6 +183,8 @@ public class FilmoviServlet extends HttpServlet {
 		case "filterFilm":
 			out.print(filterFilm(request));
 			break;
+		case "obrisiFilm":
+			out.print(obrisiFilm(filmID));
 			
 		}
 		}

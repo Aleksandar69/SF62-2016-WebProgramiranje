@@ -14,10 +14,14 @@ $.post("FilmoviServlet", params, function(data){
 			tr.className = "item";
 			tr.setAttribute("data-filmID", film.ID);
 			
-			dugmicitamoneki = "<span class='pogledajMovie' data-movieID='"+film.ID+"'></span>"
-			
+			if(localStorage['uloga']=="Admin"){
+				dugmicitamoneki = "<span class='editMovie' data-movieID='"+film.ID+"'></span><span class='deleteMovie' data-movieID='"+film.ID+"'></span>";
+			}
+			else{
+				dugmicitamoneki = "<span class='pogledajMovie' data-movieID='"+film.ID+"'></span>"
+			}
 			tr.innerHTML = "<td class='movie_name' data-filmid='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+dugmicitamoneki+"</td>";
-			tabelaFilm.appendChild(tr);	
+			tabelaFilm.appendChild(tr);
 		}
 		$(".pogledajMovie").on("click", function(){
 			let id= this.getAttribute("data-movieID");
@@ -31,6 +35,27 @@ $.post("FilmoviServlet", params, function(data){
 				window.location.href="prikazFilma.html?id="+id;
 			}
 		});
+		$(".deleteMovie").on("click",function(){
+			if(confirm("Da li ste sigurni da zelite da obrisete?")){
+				var params = {
+						action: "obrisiFilm",
+						filmID: this.getAttribute('data-movieID')
+					}
+					// kontrola toka se račva na 2 grane
+				$.post('FilmoviServlet', params, function(data) { // u posebnoj programskoj niti se šalje (asinhroni) zahtev
+						// tek kada stigne resovor izvršiće se ova anonimna funkcija
+						var res = JSON.parse(data);
+						if(res.status){
+							window.location.href="filmovi.html";
+						}
+						else{
+							pushNotification('red',"Greska prilikom brisanja");
+						}
+
+				});
+			}
+		})
+		
 	}
 });
 
@@ -39,12 +64,12 @@ var params = {
 		action: "uzmiZanrove"
 	}
 	$.post('FilmoviServlet', params, function(data) {
-		let odg = JSON.parse(data);
-		if(odg.status){
-			for(i=0;i<odg.zanrovi.length;i++){
+		let res = JSON.parse(data);
+		if(res.status){
+			for(i=0;i<res.zanrovi.length;i++){
 				let op = document.createElement('option');
-				op.value=odg.zanrovi[i];
-				op.innerText = odg.zanrovi[i];
+				op.value=res.zanrovi[i];
+				op.innerText = res.zanrovi[i];
 				document.getElementById('f_zanrovi').append(op);
 			}
 		}
@@ -88,12 +113,12 @@ $("#filterBtnFilm").on("click", function(){
 			if(res.filmovi.length>0){
 				$('tr').slice(2).remove();
 				for(i=0;i<res.filmovi.length;i++){
-				let film1 = res.filmovi[i];
+				let film = res.filmovi[i];
 				var tabela = document.getElementById('tabelaFilm');
 				var tr = document.createElement('tr');
 				tr.className="item";
-				tr.setAttribute("data-FilmID", film1.ID);
-				tr.innerHTML = "<td class='movie_name' data-filmid='"+film1.ID+"'>"+film1.Naziv+"</td><td>"+film1.Trajanje+"</td><td>"+film1.Zanrovi+"</td><td>"+film1.Godina_Proizvodnje+"</td><td>"+film1.Distributer+"</td><td>"+film1.Zemlja_Porekla+"</td><td><span class='editMovie' data-movieID='"+film1.ID+"'></span><span class='deleteMovie' data-movieID='"+film1.ID+"'></span></td>";
+				tr.setAttribute("data-FilmID", film.ID);
+				tr.innerHTML = "<td class='movie_name' data-filmid='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td><span class='editMovie' data-movieID='"+film.ID+"'></span><span class='deleteMovie' data-movieID='"+film.ID+"'></span></td>";
 				tabela.appendChild(tr);	
 				}
 				}
