@@ -30,7 +30,7 @@ public class KorisnikDAO {
 		
 		try {
 			String query = "SELECT ID, Username, Password, DatumRegistracije,Uloga,Status FROM Users "
-					+ "Where Username=? AND Password=? AND Status='Active";
+					+ "Where Username=? AND Password=? AND Status='Active'";
 			
 			conn = ConnectionManager.getConnection();
 			pstmnt = conn.prepareStatement(query);
@@ -56,7 +56,7 @@ public class KorisnikDAO {
 			
 				JSONkor = new JSONObject();
 				JSONkor.put("username", kor.getKorIme());
-				JSONkor.put("uloga", kor.getUloga());
+				JSONkor.put("uloga", kor.getUloga().toString());
 				JSONkor.put("status", kor.getStatus());
 				status = true;
 				request.getSession().setAttribute("username", kor.getKorIme());
@@ -86,6 +86,36 @@ public class KorisnikDAO {
 		
 	}
 	
+	public boolean provjeriLoginInfo(String username, String password) {
+		boolean status = false;
+		
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+		
+		try {
+			String query = "SELECT ID, Username,Password,DatumRegistracije,Uloga,Status FROM Users WHERE Username=? AND Password=? AND Status='Active'";
+			
+			conn = ConnectionManager.getConnection();
+			stmnt = conn.prepareStatement(query);
+			stmnt.setString(1, username);
+			stmnt.setString(2, password);
+			
+			rs= stmnt.executeQuery();
+			
+			if(rs.next()) {
+				status = true;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+		ConnectionManager.close(conn, stmnt, rs);
+		}
+		return status;
+		
+	}
+	
 	
 	public JSONObject getUserSessInfo(HttpServletRequest request) {
 		JSONObject JsonObj = new JSONObject();
@@ -95,6 +125,10 @@ public class KorisnikDAO {
 		String uloga = (String) request.getSession().getAttribute("uloga");
 		String id = (String) request.getSession().getAttribute("id1");
 		String accStatus= (String) request.getSession().getAttribute("status");
+		
+		if(username!=null && !username.equals("") && provjeriLoginInfo(username, password)) {
+			status  = true;
+		}
 		
 		JsonObj.put("status", status);
 		JsonObj.put("username", username);

@@ -33,6 +33,10 @@ public class KorisnikServlet extends HttpServlet {
     	return res;
     }
     
+    private JSONObject getUserSessInfo(HttpServletRequest request) {
+    	return korisnikDAO.getUserSessInfo(request);
+    }
+    
 	/**
      * @see HttpServlet#HttpServlet()
      */
@@ -61,6 +65,8 @@ public class KorisnikServlet extends HttpServlet {
 			case "login":
 				out.print(login(request));
 				break;
+			case "getSessionInfo":
+				out.print(getUserSessInfo(request));
 			}
 		}
 	}

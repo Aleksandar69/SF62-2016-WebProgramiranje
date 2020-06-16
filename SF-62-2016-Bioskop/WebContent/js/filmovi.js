@@ -105,6 +105,9 @@ $("#filterBtnFilm").on("click", function(){
 				}
 			});
 		}
-		
+		else{
+			pushNotification('red',"Ne postoji film sa zadatim kriterijumom.");
+		}
+
 	});
 });

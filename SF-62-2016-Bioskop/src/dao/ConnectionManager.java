@@ -21,7 +21,7 @@ public class ConnectionManager {
 	 * DATABASE_NAZIV;
 	 */
 	
-	public static final String WINDOWS_PATH = "C:" + FILE_SEPARATOR + DATABASE_NAZIV;
+	public static final String WINDOWS_PATH = "D:" + FILE_SEPARATOR + DATABASE_NAZIV;
 	private static final String LINUX_PATH = "SQLite" + FILE_SEPARATOR + DATABASE_NAZIV;
 
 	private static final String PATH = WINDOWS_PATH;
