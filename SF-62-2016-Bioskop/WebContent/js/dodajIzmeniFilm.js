@@ -12,9 +12,8 @@ $("#OnefilmDiv .row span").each(function(){
 var params = {
 		action: "uzmiZanrove"
 	}
-	// kontrola toka se račva na 2 grane
-	$.post('FilmoviServlet', params, function(data) { // u posebnoj programskoj niti se šalje (asinhroni) zahtev
-		// tek kada stigne resovor izvršiće se ova anonimna funkcija
+
+	$.post('FilmoviServlet', params, function(data) { 
 		var res = JSON.parse(data);
 		if(res.status){
 			for(i=0;i<res.zanrovi.length;i++){
@@ -42,9 +41,7 @@ function ucitajFilm(idFilma){
 			action: "ucitajFilm",
 			filmID: idFilma
 		}
-		// kontrola toka se račva na 2 grane
-		$.post('FilmoviServlet', params, function(data) { // u posebnoj programskoj niti se šalje (asinhroni) zahtev
-			// tek kada stigne resovor izvršiće se ova anonimna funkcija
+		$.post('FilmoviServlet', params, function(data) { 
 			var res = JSON.parse(data);
 			console.log(res);
 			if(res.status){

@@ -29,10 +29,8 @@ function pushNotification(type, message) {
 		}, 500);
 	}
 }
-//
 
 $(document).ready(function() {
-	//
 	if ($("#nav_logout")) {
 		$("#nav_logout").on('click', function() {
 			var params = {
@@ -42,7 +40,7 @@ $(document).ready(function() {
 				var odg = JSON.parse(data);
 				console.log(odg);
 				if (odg.status) {
-					window.location.href = "login.html";
+					window.location.href = "login.html";	
 				} else {
 					pushNotification('red', odg.message);
 				}

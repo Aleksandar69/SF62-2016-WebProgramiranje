@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css\bootstrap-4.3.1-dist\css\bootstrap.css">
+<script src="css\bootstrap-4.3.1-dist\js\bootstrap.js" charset="utf-8"></script>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/scrollbarstyle.css">
+<link rel="shortcut icon" href="css/favicon.png" />
+<link
+	href="https://fonts.googleapis.com/css?family=Bebas+Neue|Roboto:400,700&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+	crossorigin="anonymous">
+<script type="text/javascript" src="js/main.js" charset="utf-8"></script>
+<link rel="stylesheet" href="css/nav.css">
+<link rel="stylesheet" href="css/adminPanel.css">
+<script type="text/javascript" src="js/w3.js" charset="utf-8"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-xl navbar-dark" id="navdiv">
+       <a class="navbar-brand" href="./" id="nav_logo"><span><i class="fas fa-video"></i> Bioskopcic</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#CollapseOptions" aria-controls="CollapseOptions" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="CollapseOptions">
+          <ul class="navbar-nav ml-auto">
+            <a class="nav-opcija" id="nav_filmovi" href="./filmovi.html">
+              <li class="nav-item povecati">
+                Filmovi
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_repertoar" href="./index.html">
+              <li class="nav-item povecati">
+                Repertoar
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_adminPanel" href="./adminPanel.html">
+              <li class="nav-item povecati">
+                Admin Panel
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_profil" href="./moj_profil.html">
+              <li class="nav-item povecati">
+                Moj Profil
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_login" href="./login.html">
+              <li class="nav-item povecati">
+                Login
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_logout" href="#">
+              <li class="nav-item povecati">
+                Log Out
+              </li>
+            </a>
+          </ul>
+
+        </div>
+  </nav>
+  
+  <div id="notificationdiv">
+
+  </div>
+  <script src="./js/nav.js" charset="utf-8"></script>
+  
+    <table id="Korisnici">
+    <tr>
+      <th> <input placeholder="Username..." id="f_username"> </th>
+      <th></th>
+      <th> <select id="Uloge"> <option value=""> </option> <option value="Admin">Admin</option> <option value="obicanKorisnik">obicanKorisnik</option> </select> </th>
+      <th> <button type="button" class="confirmbtn" id="filterUsers">Filtriraj</button> </th>
+    </tr>
+    <tr>
+      <th onclick="w3.sortHTML('#Korisnici','.item', 'td:nth-child(1)')">Username</th>
+      <th onclick="w3.sortHTML('#Korisnici','.item', 'td:nth-child(2)')">Datum Registracije</th>
+      <th onclick="w3.sortHTML('#Korisnici','.item', 'td:nth-child(3)')">Uloga</th>
+      <th onclick="w3.sortHTML('#Korisnici','.item', 'td:nth-child(4)')">Status</th>
+    </tr>
+
+  </table>
+
+  <div class="talcen margin0" id="optionsAdmin">
+    <a href="dodajIzmeniFilm.html"><button type="button" name="button" class="confirmbtn talcen margin0 margin10">Dodaj Novi Film</button></a>
+    <a href="dodajProjekciju.html"><button type="button" name="button" class="confirmbtn talcen margin0 margin10">Dodaj Novu Projekciju</button></a>
+  </div>
+
+  <div class="row margin0 talcen" style="margin-top:30px !important;margin-bottom:50px !important;">
+    <div class="talcen margin0">
+      <input type="date" id="vreme"> <button type="button" name="button" class="confirmbtn" id="izvestajbtn">Uzmi izvestaj</button>
+    </div>
+  </div>
+  <div class="row">
+    <table class="margin0" id="izvestajTabela">
+      <tr>
+        <th onclick="w3.sortHTML('#izvestajTabela','.item', 'td:nth-child(1)')">Film</th>
+        <th onclick="w3.sortHTML('#izvestajTabela','.item', 'td:nth-child(2)')">Broj Projekcija</th>
+        <th onclick="w3.sortHTML('#izvestajTabela','.item', 'td:nth-child(3)')">Broj Prodatih Karata</th>
+        <th onclick="w3.sortHTML('#izvestajTabela','.item', 'td:nth-child(4)')">Ukupna Zarada</th>
+      </tr>
+    </table>
+  </div>
+
+<script src="./js/adminPanel.js" charset="utf-8"></script>
+  
+
+
+</body>
+</html>

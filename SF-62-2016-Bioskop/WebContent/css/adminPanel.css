@@ -1,0 +1,31 @@
+#Korisnici,#izvestajTabela{
+  text-align: center;
+  margin: 0 auto;
+  color: #d0d0d0;
+  background: #0c101e;
+  margin-top: 100px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 2px #FF652F;
+}
+#Korisnici th, #Korisnici td,#izvestajTabela th,#izvestajTabela td{
+  padding: 5px;
+}
+#Korisnici tr:hover,#izvestajTabela tr:hover{
+  background-color: #131a30;
+  cursor: pointer;
+}
+#Korisnici th,#izvestajTabela th{
+  color: #FF652F;
+}
+#Korisnici td,#izvestajTabela td{
+  color: #d0d0d0;
+}
+
+#izvestajTabela{
+  margin-bottom: 100px;
+}
+.izvestajlink{
+  text-decoration: underline;
+  font-size: 22px;
+}

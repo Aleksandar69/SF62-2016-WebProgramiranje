@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -119,7 +120,7 @@ public class KorisnikDAO {
 	
 	public JSONObject getUserSessInfo(HttpServletRequest request) {
 		JSONObject JsonObj = new JSONObject();
-		Boolean status = false;
+		boolean status = false;
 		String username = (String) request.getSession().getAttribute("username");
 		String password = (String) request.getSession().getAttribute("password");
 		String uloga = (String) request.getSession().getAttribute("uloga");
@@ -138,4 +139,87 @@ public class KorisnikDAO {
 		return JsonObj;
 		
 	}
-}
+	
+	public JSONObject logOut(HttpServletRequest request) {
+		boolean status = false;
+		String message = "Greska";
+		
+		try {
+			request.getSession().removeAttribute("username");
+			request.getSession().removeAttribute("uloga");
+			request.getSession().removeAttribute("status");
+			request.getSession().removeAttribute("id1");
+			
+			status = true;
+			message = "Logged out";
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		JSONObject obj = new JSONObject();
+		obj.put("status", status);
+		obj.put("message",message);
+		return obj;
+	}
+	
+	public JSONObject ucitajSveKorisnike() {
+		JSONObject res = new JSONObject();
+		ArrayList<JSONObject> korisnici = new ArrayList<JSONObject>();
+		
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+		
+		boolean status = false;
+		
+		try {
+			conn= ConnectionManager.getConnection();
+			
+			String query = "SELECT ID, Username,Password,DatumRegistracije,Uloga,Status FROM Users";
+			
+			stmnt = conn.prepareStatement(query);
+			
+			rs = stmnt.executeQuery();
+			
+			while(rs.next()) {
+				status = true;
+				
+				int index = 1;
+				
+				String id = rs.getString(index++);
+				String usernameFromDb = rs.getString(index++);
+				String passwordFromDb = rs.getString(index++);
+				String datum = rs.getString(index++);
+				String uloga = rs.getString(index++);
+				String statusFromDb = rs.getString(index++);
+				
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				Date datumConverted = format.parse(datum);
+
+
+				Korisnik kor = new Korisnik(id, usernameFromDb, passwordFromDb,datumConverted, Uloga.valueOf(uloga), statusFromDb);
+				
+				JSONObject jsonObj = new JSONObject();
+			
+				jsonObj.put("ID", kor.getId());
+				jsonObj.put("Username", kor.getKorIme());
+				jsonObj.put("Password", kor.getLozinka());
+				jsonObj.put("Datum", format.format(kor.getDatumRegistracije()));
+				jsonObj.put("Uloga", kor.getUloga().toString());
+				jsonObj.put("Status", kor.getStatus());
+				korisnici.add(jsonObj);
+			}
+			res.put("status", status);
+			res.put("lista", korisnici);
+		}
+		
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close(conn, stmnt, rs);
+		}
+		return res;
+	}
+	
+	}
