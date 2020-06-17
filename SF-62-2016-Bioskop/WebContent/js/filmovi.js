@@ -15,7 +15,9 @@ $.post("FilmoviServlet", params, function(data){
 			tr.setAttribute("data-filmID", film.ID);
 			
 			if(localStorage['uloga']=="Admin"){
-				dugmicitamoneki = "<span class='editMovie' data-movieID='"+film.ID+"'></span><span class='deleteMovie' data-movieID='"+film.ID+"'></span>";
+				dugmicitamoneki = "<span class='editMovie' data-movieID='"+film.ID+"'></span>" +
+						"<span class='deleteMovie' data-movieID='"+film.ID+"'></span>" +
+								"<span class='addMovie' data-movieID='"+film.ID+"'> </span>";
 			}
 			else{
 				dugmicitamoneki = "<span class='pogledajMovie' data-movieID='"+film.ID+"'></span>"
@@ -34,6 +36,9 @@ $.post("FilmoviServlet", params, function(data){
 			if(id>0 && id!=null && id!=undefined){
 				window.location.href="prikazFilma.html?id="+id;
 			}
+		});
+		$(".addMovie").on("click", function(){
+			window.location.href="dodajIzmijeniFilm.html"
 		});
 		$(".deleteMovie").on("click",function(){
 			if(confirm("Da li ste sigurni da zelite da obrisete?")){
@@ -54,7 +59,10 @@ $.post("FilmoviServlet", params, function(data){
 
 				});
 			}
-		})
+		});
+		$(".editMovie").on('click',function(){
+			window.location.href="dodajIzmijeniFilm.html?id=" +this.getAttribute('data-movieID');;
+		});
 		
 	}
 });

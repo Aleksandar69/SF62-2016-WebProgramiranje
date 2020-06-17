@@ -67,6 +67,16 @@ tr:first-child{
   padding:5px;
   cursor:pointer;
 }
+.addMovie::after{
+	content:"Dodaj";
+	background-color:green;
+	display: block;
+	top:0;
+	left:0;
+  border-radius:10px;
+  padding:5px;
+  cursor:pointer;
+}
 .movie_name{
 	font-size: 22px;
     text-decoration: underline;

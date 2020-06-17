@@ -146,6 +146,22 @@ public class FilmoviServlet extends HttpServlet {
 		    return res;
 	  }
 
+	  
+	  private JSONObject izmeniFilm(HttpServletRequest request) {
+	    	
+	    	JSONObject res = new JSONObject();
+		    res = filmoviDAO.izmeniFilm(request);
+		    return res;
+	    }
+	  
+	  private JSONObject dodajFilm(HttpServletRequest request) {
+		  boolean status = filmoviDAO.dodajFilm(request);
+		  JSONObject res = new JSONObject();
+		  res.put("status", status);
+		  
+		  return res;
+	  }
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -172,11 +188,9 @@ public class FilmoviServlet extends HttpServlet {
 		case "ucitajFilmove":
 			out.print(ucitajFilmove());
 		break;
-		
 		case "ucitajFilm":
 			out.print(ucitajJedanFilm(filmID));
 			break;
-		
 		case "uzmiZanrove":
 			out.print(uzmiZanrove());
 			break;
@@ -185,8 +199,13 @@ public class FilmoviServlet extends HttpServlet {
 			break;
 		case "obrisiFilm":
 			out.print(obrisiFilm(filmID));
-			
+			break;
+		case "izmeniFilm":
+			out.print(izmeniFilm(request));
+			break;
+		case "dodajFilm":
+			out.print(dodajFilm(request));
+			break;
 		}
-		}
-
+	}
 }

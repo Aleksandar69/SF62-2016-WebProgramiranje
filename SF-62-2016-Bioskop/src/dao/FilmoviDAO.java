@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONObject;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
@@ -255,7 +257,7 @@ public class FilmoviDAO {
 		return jsonObj;
 	}
 
-	public static boolean logickoBrisanjeFilm(String id) {
+	public boolean logickoBrisanjeFilm(String id) {
 		Connection conn = null;
 		PreparedStatement stmnt = null;
 		boolean status = false;
@@ -281,4 +283,134 @@ public class FilmoviDAO {
 		}
 		return status;
 	}
+	
+	public JSONObject izmeniFilm(HttpServletRequest request) {
+
+		String naziv = request.getParameter("naziv");
+    	int trajanje = 0;
+    	try {
+    		trajanje = Integer.valueOf(request.getParameter("trajanje"));
+    	}
+    	catch(Exception e) {
+    		
+    	}
+    	String id = request.getParameter("id");
+    	String zanrovi = request.getParameter("zanr");
+    	if(zanrovi.length()<1) {
+    		zanrovi = "Prazan";
+    	}
+    	String opis = request.getParameter("opis");
+    	String glumci = request.getParameter("glumci");
+    	String reziser = request.getParameter("reziser");
+    	String godina = request.getParameter("godina");
+    	String distributer = request.getParameter("distributer");
+    	String zemlja = request.getParameter("zemlja");
+    	Boolean status = false;
+    	
+    	JSONObject res = new JSONObject();
+	    
+	    
+	    Connection conn = ConnectionManager.getConnection();
+
+		PreparedStatement pstmt = null;
+		try {
+			String query = "UPDATE Filmovi SET Naziv=?,Reziser=?,Glumci=?,Zanrovi=?,Trajanje=?,Distributer=?,Zemlja_Porekla=?,Godina_Proizvodnje=?,Opis=? WHERE ID = ?";
+
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setString(1, naziv);
+			pstmt.setString(2, reziser);
+			pstmt.setString(3, glumci);
+			pstmt.setString(4, zanrovi);
+			pstmt.setString(5, String.valueOf(trajanje));
+			pstmt.setString(6, distributer);
+			pstmt.setString(7, zemlja);
+			pstmt.setString(8, godina);
+			pstmt.setString(9, opis);
+			pstmt.setString(10, id);
+
+			
+
+			int broj = pstmt.executeUpdate();
+
+			if (broj>0) {
+				System.out.println("Doslo je do ovde");
+				status = true;
+			}
+			else {
+				System.out.println("Vraceno 0 redova");
+			}
+
+		} 
+		catch(Exception e) {
+			
+		}
+		finally {
+			try {pstmt.close();} catch (Exception ex1) {ex1.printStackTrace();}
+			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
+			
+		}
+		res.put("status",status);
+		return res;
+	}
+
+	
+	public boolean dodajFilm(HttpServletRequest request) {
+		String naziv = request.getParameter("naziv");
+		int trajanje = 0;
+		try {
+			trajanje = Integer.valueOf(request.getParameter("trajanje"));
+		} catch (Exception e) {
+
+		}
+		String id = request.getParameter("id");
+		String zanrovi = request.getParameter("zanr");
+		if (zanrovi.length() < 1) {
+			zanrovi = "Prazan";
+		}
+		String opis = request.getParameter("opis");
+		String glumci = request.getParameter("glumci");
+		String reziser = request.getParameter("reziser");
+		String godina = request.getParameter("godina");
+		String distributer = request.getParameter("distributer");
+		String zemlja = request.getParameter("zemlja");
+		Boolean status = false;
+		
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		
+		try {
+			conn = ConnectionManager.getConnection();
+			
+			String query = "INSERT INTO Filmovi(Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis) VALUES (?,?,?,?,?,?,?,?,?)";
+			
+			stmnt = conn.prepareStatement(query);
+			
+			stmnt.setString(1, naziv);
+			stmnt.setString(2, reziser);
+			stmnt.setString(3, glumci);
+			stmnt.setString(4, zanrovi);
+			stmnt.setString(5, String.valueOf(trajanje));
+			stmnt.setString(6, distributer);
+			stmnt.setString(7, zemlja);
+			stmnt.setString(8, godina);
+			stmnt.setString(9, opis);
+			
+			int red = stmnt.executeUpdate();
+			if(red>0) {
+				status = true;
+			} else {
+				System.out.println("Red nije pronadjen");
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close(conn, stmnt, null);
+		}
+		return status;
+	}
+	
+	
 }

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Filmovi</title>
-<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
 <meta charset="utf-8">
+<title>Film Edit</title>
+
+<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
 <link rel="stylesheet" href="css\bootstrap-4.3.1-dist\css\bootstrap.css">
 <script src="css\bootstrap-4.3.1-dist\js\bootstrap.js" charset="utf-8"></script>
 <link rel="stylesheet" href="css/main.css">
@@ -16,24 +17,19 @@
 	href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
 	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
 	crossorigin="anonymous">
-<script type="text/javascript" src="js/main.js" charset="utf-8"></script>
+<script src="js/main.js" charset="utf-8"></script>
 <link rel="stylesheet" href="css/nav.css">
-<link rel="stylesheet" href="css/filmovi.css">
-<script type="text/javascript" src="js/w3.js" charset="utf-8"></script>
-
-
+<link rel="stylesheet" href="css/prikazFilma.css">
 </head>
 <body>
-
 	<nav class="navbar navbar-expand-xl navbar-dark" id="navdiv">
 		<a class="navbar-brand" href="./" id="nav_logo"><span><i
-				class="fas fa-video"></i> KinoZvijezda</span></a>
+				class="fas fa-video"></i> Bioskopcic</span></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#CollapseOptions" aria-controls="CollapseOptions"
 			aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-
 
 		<div class="collapse navbar-collapse" id="CollapseOptions">
 			<ul class="navbar-nav ml-auto">
@@ -58,40 +54,51 @@
 			</ul>
 
 		</div>
-
 	</nav>
-
+	
 	<div id="notificationdiv"></div>
-	<script src="js/nav.js" charset="utf-8"></script>
+	<script src="./js/nav.js" charset="utf-8"></script>
+	
+	
 
-	<table id="tabelaFilm">
-		<tr>
-			<th><input id="f_naziv" /></th>
-			<th><input id="f_trajanje" type="number" /></th>
-			<th><select id="f_zanrovi" multiple></select></th>
-			<th><input id="f_godina" type="number" /></th>
-			<th><input id="f_distributer" /></th>
-			<th><input id="f_zemlja" /></th>
-			<th>
-				<button id="filterBtnFilm" class="confirmbtn">Filtriraj</button>
-			</th>
-		</tr>
-		<tr>
-			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(1)')">Naziv</th>
-			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(2)')">Trajanje</th>
-			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(3)')">Zanrovi</th>
-			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(4)')">Godina
-				Proizvodnje</th>
-			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(5)')">Distributer</th>
-			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(6)')">Zemlja
-				Porekla</th>
-		</tr>
-	</table>
+  <div id="OnefilmDiv">
+		<div class="row">
+			<span>Naziv : </span> <input id="f_title"></input>
+		</div>
+		<div class="row">
+      <span>Reziser : </span> <input id="f_reziser"></input>
+    </div>
+    <div class="row">
+      <span>Glumci : </span> <input id="f_glumci"></input>
+    </div>
+    <div class="row">
+      <span>Trajanje : </span> <input id="f_trajanje" type="number"></input>
+    </div>
+    <div class="row">
+      <span>Zanrovi : </span> <select id="f_zanrovi" multiple style="height: 100px;width: 50%;margin-right: 15px;"></select> </input>
+    </div>
+    <div class="row">
+      <span>Distributer : </span> <input id="f_distributer"></input>
+    </div>
+    <div class="row">
+      <span>Zemlja Porijekla : </span> <input id="f_zemlja"></input>
+    </div>
+    <div class="row">
+      <span>Godina Proizvodnje : </span> <input id="f_god" type="number"></input>
+    </div>
+    <div class="row">
+      <textarea id="f_opis"></textarea>
+    </div>
+    <div class="row" id="dugmici">
+      <button type="button" name="button" class="confirmbtn margin0" style="margin-top:10px;" id="savebtn">Sacuvaj film</button>
+      <button type="button" name="button" class="redbtn hidden margin0" id="deletebtn">Obrisi Film</button>
+    </div>
+    <p>Beleska : Glumce odvojte sa tackom-zarez (;).</p>
+  </div>
 
-	<p id="errorMsg"></p>
+<script src="./js/dodajIzmeniFilm.js"></script>
 
 
 
-	<script type="text/javascript" src="js/filmovi.js"></script>
 </body>
 </html>
