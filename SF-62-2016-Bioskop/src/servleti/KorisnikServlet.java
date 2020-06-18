@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
+import com.sun.net.httpserver.HttpsServer;
+
 import dao.KorisnikDAO;
 import jdk.nashorn.internal.runtime.Undefined;
 
@@ -53,6 +55,70 @@ public class KorisnikServlet extends HttpServlet {
 		return res;
 	}
 
+	private JSONObject ucitajKorisnika(HttpServletRequest request) {
+		JSONObject res = new JSONObject();
+		String id = request.getParameter("id");
+		res = korisnikDAO.ucitajKorisnika(id);
+		return res;
+	}
+
+	private JSONObject obrisiKorisnika(HttpServletRequest request) {
+		JSONObject jsonObj = new JSONObject();
+		boolean status = false;
+		String message = "Korisnik ne moze biti obrisan";
+
+		String uloga = (String) request.getSession().getAttribute("uloga");
+		if (uloga.equals("Admin")) {
+			String id1 = request.getParameter("idKorisnika");
+			if (!((String) request.getSession().getAttribute("id1")).equals(id1)) {
+				status = korisnikDAO.obrisiKorisnika(id1);
+			}
+			if (status) {
+				message = "Korisnik uspjesno obrisan";
+			}
+		} else {
+			message = "Nista ulogovani kao Admin";
+		}
+		jsonObj.put("status", status);
+		jsonObj.put("message", message);
+		return jsonObj;
+	}
+
+	private JSONObject editUser(HttpServletRequest request) {
+		JSONObject res = new JSONObject();
+		boolean uloga = false;
+		boolean sifra = false;
+
+		if (((String) request.getSession().getAttribute("username"))
+				.equals(korisnikDAO.getUser(request.getParameter("idKorisnika")).getKorIme())) {
+			String idKorisnika = request.getParameter("idKorisnika");
+			String novaSifra = request.getParameter("novasifra");
+			sifra = korisnikDAO.promijeniSifru(request, idKorisnika, novaSifra);
+		}
+		if (((String) request.getSession().getAttribute("uloga")).equals("Admin")) {
+			String idKorisnika = request.getParameter("idKorisnika");
+			String novaUloga = request.getParameter("novaUloga");
+			if (!((String) request.getSession().getAttribute("username"))
+					.equals(korisnikDAO.getUser(idKorisnika).getKorIme())) {
+				uloga = korisnikDAO.promijeniUlogu(request, idKorisnika, novaUloga);
+			}
+		}
+		res.put("promenjenaSifra", sifra);
+		res.put("promenjenaUloga", uloga);
+		return res;
+	}
+
+	private JSONObject filtrirajKorisnike(HttpServletRequest request) {
+		JSONObject res = new JSONObject();
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String datum = request.getParameter("datum");
+		String tip = request.getParameter("tip");
+		
+		res = korisnikDAO.filtrirajKorisnike(username, password, datum, tip);
+		return res;
+	}
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -80,14 +146,24 @@ public class KorisnikServlet extends HttpServlet {
 			case "getSessionInfo":
 				out.print(getUserSessInfo(request));
 				break;
-
 			case "logOut":
 				out.print(logOut(request));
 				break;
 			case "ucitajSve":
 				out.print(ucitajSveKorisnike());
 				break;
-			}
+			case "ucitajKorisnika":
+				out.print(ucitajKorisnika(request));
+				break;
+			case "deleteUser":
+				out.print(obrisiKorisnika(request));
+				break;
+			case "editUser":
+				out.print(editUser(request));
+			case "filter":
+				out.print(filtrirajKorisnike(request));
+				break;
+		}
 		}
 	}
 

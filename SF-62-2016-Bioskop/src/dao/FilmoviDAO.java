@@ -124,8 +124,8 @@ public class FilmoviDAO {
 		try {
 			conn = ConnectionManager.getConnection();
 
-			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,,Godina_Proizvodnje,Opis,Status FROM Filmovi"
-					+ " WHERE Naziv LIKE ? AND Reziser LIKE ? AND Glumci LIKE ? AND Zanrovi LIKE ? AND Trajanje>? AND Distributer LIKE ? AND  LIKE ? AND Godina_Proizvodnje LIKE ? AND Opis LIKE ?";
+			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis,Status FROM Filmovi"
+					+ " WHERE Naziv LIKE ? AND Reziser LIKE ? AND Glumci LIKE ? AND Zanrovi LIKE ? AND Trajanje>? AND Distributer LIKE ? AND Zemlja_Porekla LIKE ? AND Godina_Proizvodnje LIKE ? AND Opis LIKE ?";
 
 			stmnt = conn.prepareStatement(query);
 			stmnt.setString(1, "%" + naziv1 + "%");

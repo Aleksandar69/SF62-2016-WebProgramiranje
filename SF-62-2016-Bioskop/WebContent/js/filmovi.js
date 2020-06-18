@@ -3,6 +3,7 @@ var params = {
 		filmId: "1"
 }
 
+
 $.post("FilmoviServlet", params, function(data){
 	
 	let res = JSON.parse(data);

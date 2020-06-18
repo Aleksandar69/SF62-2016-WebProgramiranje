@@ -1,0 +1,29 @@
+#userBox{
+  width: fit-content;
+padding: 20px 100px;
+margin: 0 auto;
+text-align: center;
+margin-top: 100px;
+background-color: #0c101e;
+border-radius: 10px;
+box-shadow: 0px 0px 4px #FF652F;
+color: #d0d0d0;
+}
+#karteTable{
+  width: fit-content;
+    padding: 20px 100px;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 100px;
+    background-color: #0c101e;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px #FF652F;
+    color: #d0d0d0;
+    margin-bottom: 100px;
+}
+#karteTable td{
+  padding: 10px;
+}
+#karteTable th{
+  color: #FF652F;
+}

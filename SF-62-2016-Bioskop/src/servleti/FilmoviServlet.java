@@ -136,7 +136,8 @@ public class FilmoviServlet extends HttpServlet {
 	    		}
 	    	}
 	    	catch (Exception e) {
-	    		System.out.println("Puklo je ovde na ucitaj sve filmove.");
+	    		System.out.println("Puklo je ovde na filteru.");
+	    		e.printStackTrace();
 	    	}
 	    	JSONObject res = new JSONObject();
 

@@ -18,12 +18,12 @@
 	crossorigin="anonymous">
 <script type="text/javascript" src="js/main.js" charset="utf-8"></script>
 <link rel="stylesheet" href="css/nav.css">
-<link rel="stylesheet" href="css/adminPanel.css">
+<link rel="stylesheet" href="css/prikazJednogKorisnika.css">
 <script type="text/javascript" src="js/w3.js" charset="utf-8"></script>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-xl navbar-dark" id="navdiv">
+	 <nav class="navbar navbar-expand-xl navbar-dark" id="navdiv">
        <a class="navbar-brand" href="./" id="nav_logo"><span><i class="fas fa-video"></i> Bioskopcic</span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#CollapseOptions" aria-controls="CollapseOptions" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -66,51 +66,31 @@
         </div>
   </nav>
   
-  <div id="notificationdiv">
+    <div id="notificationdiv">
 
   </div>
   <script src="./js/nav.js" charset="utf-8"></script>
   
-    <table id="Korisnici">
-    <tr>
-      <th> <input placeholder="Username..." id="f_username"> </th>
-      <th></th>
-      <th> <select id="Uloge"> <option value=""> </option> <option value="Admin">Admin</option> <option value="Korisnik">Korisnik</option> </select> </th>
-      <th> <button type="button" class="confirmbtn" id="filterUsers">Filtriraj</button> </th>
-    </tr>
-    <tr>
-      <th onclick="w3.sortHTML('#Korisnici','.item', 'td:nth-child(1)')">Username</th>
-      <th onclick="w3.sortHTML('#Korisnici','.item', 'td:nth-child(2)')">Datum Registracije</th>
-      <th onclick="w3.sortHTML('#Korisnici','.item', 'td:nth-child(3)')">Uloga</th>
-      <th onclick="w3.sortHTML('#Korisnici','.item', 'td:nth-child(4)')">Status</th>
-    </tr>
-
-  </table>
-
-  <div class="talcen margin0" id="optionsAdmin">
-    <a href="dodajIzmijeniFilm.html"><button type="button" name="button" class="confirmbtn talcen margin0 margin10">Dodaj Novi Film</button></a>
-    <a href="dodajProjekciju.html"><button type="button" name="button" class="confirmbtn talcen margin0 margin10">Dodaj Novu Projekciju</button></a>
-  </div>
-
-  <div class="row margin0 talcen" style="margin-top:30px !important;margin-bottom:50px !important;">
-    <div class="talcen margin0">
-      <input type="date" id="vreme"> <button type="button" name="button" class="confirmbtn" id="izvestajbtn">Uzmi izvestaj</button>
-    </div>
-  </div>
-  <div class="row">
-    <table class="margin0" id="izvestajTabela">
-      <tr>
-        <th onclick="w3.sortHTML('#izvestajTabela','.item', 'td:nth-child(1)')">Film</th>
-        <th onclick="w3.sortHTML('#izvestajTabela','.item', 'td:nth-child(2)')">Broj Projekcija</th>
-        <th onclick="w3.sortHTML('#izvestajTabela','.item', 'td:nth-child(3)')">Broj Prodatih Karata</th>
-        <th onclick="w3.sortHTML('#izvestajTabela','.item', 'td:nth-child(4)')">Ukupna Zarada</th>
-      </tr>
-    </table>
-  </div>
-
-<script src="./js/adminPanel.js" charset="utf-8"></script>
+  <div id="userBox">
+	<p>Korisnicko ime : <span id="user_username"></span> </p>
+	<p>Sifra  : <input id="user_pass"  type="password"> </p>
+	<p>Datum registracije : <span id="user_registracija"></span> </p>
+	<p>Uloga : <select id="user_ulogaselect"> <option value="Korisnik">Korisnik</option> <option value="Admin">Admin</option> </select> </p>
+  <p>Status : <span id="user_status"></span> </p>
+  <div id="dugmici">
+		<button type="button" name="button" class="confirmbtn margin0" id="saveUser">Sacuvaj</button>
+	</div>
+</div>
   
-
-
+  <div class="row talcen">
+  <table id="karteTable">
+    <th>Film</th>
+    <th>Sediste</th>
+    <th>Termin</th>
+    <th></th>
+  </table>
+</div>
+  
+<script src="./js/prikazJednogKorisnika.js"></script>
 </body>
 </html>

@@ -63,16 +63,17 @@
 	<script src="js/nav.js" charset="utf-8"></script>
 
 	<table id="tabelaFilm">
-		<tr>
+		<tr id="headerFilm">
 			<th><input id="f_naziv" /></th>
 			<th><input id="f_trajanje" type="number" /></th>
 			<th><select id="f_zanrovi" multiple></select></th>
 			<th><input id="f_godina" type="number" /></th>
 			<th><input id="f_distributer" /></th>
 			<th><input id="f_zemlja" /></th>
-			<th>
-				<button id="filterBtnFilm" class="confirmbtn">Filtriraj</button>
-			</th>
+			<th id  = "dugmiciFilm">
+				<div id = "divDugmici"><button id="filterBtnFilm" class="confirmbtn">Filtriraj</button></div>
+<!-- 				<div><button id='addBtnFilm' class='confirmbtn' >Dodaj Film</button></div>
+ -->			</th>
 		</tr>
 		<tr>
 			<th onclick="w3.sortHTML('#tabelaFilm','.item', 'td:nth-child(1)')">Naziv</th>
