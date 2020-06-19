@@ -118,6 +118,12 @@ public class KorisnikServlet extends HttpServlet {
 		res = korisnikDAO.filtrirajKorisnike(username, password, datum, tip);
 		return res;
 	}
+	
+	private JSONObject registracijaKorisnika(HttpServletRequest request) {
+		JSONObject res = new JSONObject();
+		res = korisnikDAO.registrujKorisnika(request);
+		return res;
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -163,8 +169,13 @@ public class KorisnikServlet extends HttpServlet {
 			case "filter":
 				out.print(filtrirajKorisnike(request));
 				break;
+			case "registracija":
+				out.print(registracijaKorisnika(request));
+				break;
 		}
 		}
 	}
+
+
 
 }

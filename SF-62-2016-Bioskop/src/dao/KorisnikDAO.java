@@ -477,4 +477,139 @@ public class KorisnikDAO {
 		}
 		return res;
 	}
+	
+	public JSONObject registrujKorisnika(HttpServletRequest request) {
+		JSONObject res = new JSONObject();
+		
+		boolean status = false;
+		
+		String message = "Greska";
+		String korIme = request.getParameter("username");
+		String lozinka = request.getParameter("password");
+		
+		if(korIme.length()== 0 || lozinka.length() == 0) {
+			status = false;
+			res.put("status", status);
+			message="Popunite sva polja.";
+			res.put("message", message);
+			return res;
+		}
+		if(korisnikPostoji(korIme)){
+			status = false;
+			res.put("status", status);
+			message = "Korisnicko ime vec postoji";
+			res.put("message", message);
+			return res;
+		}
+		else {
+			Connection conn = null;
+			PreparedStatement stmnt = null;
+			
+			try {
+				conn = ConnectionManager.getConnection();
+				
+				String query = "INSERT INTO Users(Username,Password,DatumRegistracije,Uloga,Status) VALUES (?,?,?,'Korisnik','Active')";
+
+				stmnt = conn.prepareStatement(query);
+				stmnt.setString(1, korIme);
+				stmnt.setString(2, lozinka);
+				
+				DateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd");
+				Date date = new Date();
+				stmnt.setString(3, dateFormat.format(date));
+				
+				int red = stmnt.executeUpdate();
+				if(red > 0) {
+					status = true;
+					message = "Registracija uspjesna";
+					
+					request.getSession().setAttribute("username",korIme);
+					request.getSession().setAttribute("password", lozinka);
+					request.getSession().setAttribute("uloga", "Korisnik");
+					request.getSession().setAttribute("status", "Active");
+					request.getSession().setAttribute("id1", String.valueOf(ucitajBrKorisnika()));
+					
+				}
+				else {
+					message = "Greska pri unosu u bazu.";
+				}
+				
+				
+			}
+			catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close(conn, stmnt, null);
+		}
+		res.put("status", status);
+		res.put("messge", message);
+		return res;
+		}
+	}
+	
+	public boolean korisnikPostoji(String korIme) {
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+		
+		boolean status = false;
+
+		try {
+			conn = ConnectionManager.getConnection();
+			
+			String query = "SELECT ID,Username,Password,DatumRegistracije,Uloga,Status FROM Users"
+					+ " WHERE Username = ?";
+			
+			stmnt = conn.prepareStatement(query);
+			stmnt.setString(1, korIme);
+			
+			rs = stmnt.executeQuery();
+			
+			if(rs.next()) {
+				status = true;
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			finally {
+				ConnectionManager.close(conn, stmnt, null);
+			}
+			return status;
+		
+		
+	}
+	
+	public static int ucitajBrKorisnika() {
+		int broj = 0;
+		
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = ConnectionManager.getConnection();
+			
+			String query = "SELECT ID FROM Users";
+
+			stmnt = conn.prepareStatement(query);
+
+			rs = stmnt.executeQuery();
+			
+			while(rs.next()) {
+				broj++;
+			}
+
+			
+	}
+	catch(Exception e) {
+		
+	}
+	finally {
+		try {stmnt.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+	}
+		return broj;
+	}
 }
