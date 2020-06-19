@@ -23,7 +23,7 @@ $.post('KorisnikServlet', params, function(data) {
 
 setInterval(function(){
 	if(localStorage['uloga']!="Admin"){
-		window.location.href="index.html";
+		window.location.href="projekcije.html";
 	}
 },100);
 

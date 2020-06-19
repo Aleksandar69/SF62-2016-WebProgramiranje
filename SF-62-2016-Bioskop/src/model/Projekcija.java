@@ -5,9 +5,9 @@ import java.util.Date;
 public class Projekcija {
 	
 	private int id;
-	private Film film;
-	private TipProjekcije tipProjekcije;
-	private Sala sala;
+	private int idFilma;
+	private String tipProjekcije;
+	private int idSale;
 	private Date datumiVrijemePrikazivanja;
 	private int cijenaKarte;
 	private String usernameAdministratora;
@@ -23,13 +23,13 @@ public class Projekcija {
 	}
 	
 	
-	public Projekcija(int id, Film film, TipProjekcije tipProjekcije, Sala sala, Date datumiVrijemePrikazivanja,
+	public Projekcija(int id, int idFilma, String tipProjekcije, int idSale, Date datumiVrijemePrikazivanja,
 			int cijenaKarte, String usernameAdministratora, String status, int maksimumKarata, int prodaneKarte) {
 		super();
 		this.id = id;
-		this.film = film;
+		this.idFilma = idFilma;
 		this.tipProjekcije = tipProjekcije;
-		this.sala = sala;
+		this.idSale = idSale;
 		this.datumiVrijemePrikazivanja = datumiVrijemePrikazivanja;
 		this.cijenaKarte = cijenaKarte;
 		this.usernameAdministratora = usernameAdministratora;
@@ -44,23 +44,23 @@ public class Projekcija {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Film getFilm() {
-		return film;
+	public int getFilm() {
+		return idFilma;
 	}
-	public void setFilm(Film film) {
-		this.film = film;
+	public void setFilm(int idFilma) {
+		this.idFilma = idFilma;
 	}
-	public TipProjekcije getTipProjekcije() {
+	public String getTipProjekcije() {
 		return tipProjekcije;
 	}
-	public void setTipProjekcije(TipProjekcije tipProjekcije) {
+	public void setTipProjekcije(String tipProjekcije) {
 		this.tipProjekcije = tipProjekcije;
 	}
-	public Sala getSala() {
-		return sala;
+	public int getSala() {
+		return idSale;
 	}
-	public void setSala(Sala sala) {
-		this.sala = sala;
+	public void setSala(int idSale) {
+		this.idSale = idSale;
 	}
 	public Date getDatumiVrijemePrikazivanja() {
 		return datumiVrijemePrikazivanja;

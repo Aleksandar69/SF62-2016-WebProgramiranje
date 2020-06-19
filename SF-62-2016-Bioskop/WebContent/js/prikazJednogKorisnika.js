@@ -10,7 +10,7 @@ $.post('KorisnikServlet', params, function(data) {
 	if(res.status){
 		if(localStorage['id1']!=id1 && localStorage['uloga']!=['Admin']){
 			localStorage['poruka']="red|Ne mozete da vidite sadrzaj na toj stranici.";
-			window.location.href="index.html";
+			window.location.href="projekcije.html";
 		}
 		$("#user_username").text(res.korisnik.Username);
 		if(res.korisnik.Username==localStorage['username']){
@@ -55,7 +55,7 @@ $.post('KorisnikServlet', params, function(data) {
 		}
 	}
 	else{
-		window.location.href="index.html";
+		window.location.href="projekcije.html";
 	}
 });
 

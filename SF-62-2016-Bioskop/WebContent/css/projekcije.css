@@ -1,0 +1,49 @@
+#tabelaProjekcija{
+  margin: 0 auto;
+    background: #0c101e;
+    color: #d0d0d0;
+    border-radius: 10px;
+    font-size: 18px;
+        box-shadow: 0px 0px 2px #FF652F;
+    overflow: hidden;
+    margin-top: 100px;
+}
+#tabelaProjekcija tr{
+  transition: 0.5s all ease;
+}
+#tabelaProjekcija tr:hover{
+  background-color: #131a30;
+  cursor: pointer;
+}
+#tabelaProjekcija td,#tabelaProjekcija th{
+  padding: 11px;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  transition: 0.5s all ease;
+}
+#tabelaProjekcija th{
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: #FF652F;
+}
+.proj_film_link{
+  text-decoration: underline;
+  cursor: pointer;
+}
+.proj_film_link:hover{
+  color: #FF652F;
+}
+#filterBox{
+  width: fit-content;
+margin: 0 auto;
+text-align: center;
+color: #d0d0d0;
+margin-top: 50px;
+}
+.filterBoxOption{
+  width: fit-content;
+    text-align: center;
+    margin: 0 auto;
+    padding: 10px;
+}

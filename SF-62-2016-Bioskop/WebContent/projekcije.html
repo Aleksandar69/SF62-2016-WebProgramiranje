@@ -4,6 +4,7 @@
 <title>Pocetna Stranica KT</title>
 <script src="./js/jquery-3.5.1.js"></script>
 <meta charset="utf-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="css\bootstrap-4.3.1-dist\css\bootstrap.css">
 <script src="css\bootstrap-4.3.1-dist\js\bootstrap.js" charset="utf-8"></script>
 <link rel="stylesheet" href="css/main.css">
@@ -13,12 +14,11 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 <script src="./js/main.js" charset="utf-8"></script>
 <link rel="stylesheet" href="./css/nav.css">
-<link rel="stylesheet" href="./css/prikazFilma.css">
-
+<link rel="stylesheet" href="./css/projekcije.css">
+<script src="./js/w3.js" charset="utf-8"></script>
 </head>
-
 <body>
-<nav class="navbar navbar-expand-xl navbar-dark" id="navdiv">
+  <nav class="navbar navbar-expand-xl navbar-dark" id="navdiv">
        <a class="navbar-brand" href="./" id="nav_logo"><span><i class="fas fa-video"></i> Bioskopcic</span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#CollapseOptions" aria-controls="CollapseOptions" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -36,7 +36,7 @@
                 Repertoar
               </li>
             </a>
-            <a class="nav-opcija" id="nav_adminPanel" href="./adminPanel.html">
+            <a class="nav-opcija" id="nav_adminPanel" href="./admin_panel.html">
               <li class="nav-item povecati">
                 Admin Panel
               </li>
@@ -60,45 +60,35 @@
 
         </div>
   </nav>
-  
-   <div id="notificationdiv">
+  <div id="notificationdiv">
 
   </div>
   <script src="./js/nav.js" charset="utf-8"></script>
-  
-  <div id="OnefilmDiv">
-  	<div class="row">
-  		<span>Naziv:  </span> <span id="f_title"></span>
-  	</div>
-  	<div class="row">
-  		<span>Reziser:  </span> <span id="f_reziser"></span>
-  	</div>
-  	<div class="row">
-      <span>Glumci:  </span> <span id="f_glumci"></span>
-    </div>
-     <div class="row">
-      <span>Trajanje:  </span> <span id="f_trajanje"></span>
-    </div>
-    <div class="row">
-      <span>Zanrovi:  </span> <span id="f_zanrovi"></span>
-    </div>
-    <div class="row">
-      <span>Distributer:  </span> <span id="f_distributer"></span>
-    </div>
-     <div class="row">
-      <span>Zemlja Porijekla:  </span> <span id="f_zemlja"></span>
-    </div>
-    <div class="row">
-      <span>Godina Proizvodnje:  </span> <span id="f_god"></span>
-    </div>
-       <div class="row">
-      <textarea id="f_opis" readonly></textarea>
-    </div>
-        <div class="row" id="dugmici"> </div>
-    
-  </div>
-  
-  <script src="./js/prikazJednogFilma.js"></script>
 
+    <div id="filterBox">
+      <button type="button" name="button" class="orangebutton" id="filterOpenBox">Filtriranje Meni</button>
+      <div class="filterBoxOption hidden">Film : <select id="filter_Filmovi"> <option value="" data-idfilma=""></option> </select> </div>
+      <div class="filterBoxOption hidden">Pocetak od : <input type="datetime-local" id="f_pocetakOd" value="2000-12-31T10:10"></div>
+      <div class="filterBoxOption hidden">Pocetak do : <input type="datetime-local" id="f_pocetakDo" value="2100-12-31T14:02"></div>
+      <div class="filterBoxOption hidden">Sala : <select id="filter_Sale"> <option value="" data-IDSale=""></option></select></div>
+      <div class="filterBoxOption hidden">Tip Projekcije : <select id="filter_tipProjekcije"> <option value="" data-tipovi='[{"ID":null,"Naziv":""}]'></option></select></div>
+      <div class="filterBoxOption hidden">Cena karte od : <input type="number" value="0" id="f_cenaOd"> </div>
+      <div class="filterBoxOption hidden">Cena karte do : <input type="number" value="999999" id="f_cenaDo"> </div>
+      <div class="filterBoxOption hidden"> <button type="button" name="button" class="confirmbtn" id="filterbtn">Filtriraj</button> </div>
+    </div>
+
+    <table id="tabelaProjekcija">
+      <tr>
+        <th onclick="w3.sortHTML('#tabelaProjekcija','.item', 'td:nth-child(1)')">Film</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcija','.item', 'td:nth-child(2)')">Termin</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcija','.item', 'td:nth-child(3)')">Sala</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcija','.item', 'td:nth-child(4)')">Tip Projekcije</th>
+        <th onclick="w3.sortHTML('#tabelaProjekcija','.item', 'td:nth-child(5)')">Cena</th>
+        <th></th>
+      </tr>
+    </table>
+  </div>
+
+  <script src="./js/projekcije.js" charset="utf-8"></script>
 </body>
 </html>

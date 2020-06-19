@@ -21,6 +21,69 @@ import model.*;
 
 public class FilmoviDAO {
 
+	public Film nadjiFilmPrekoIda(int id) {
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+
+		Film film = null;
+		
+		ArrayList<JSONObject> sviFilmovi = new ArrayList<JSONObject>();
+
+		try {
+			conn = ConnectionManager.getConnection();
+
+			String query = "SELECT ID, Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis,Status FROM Filmovi WHERE id = ?";
+		
+			stmnt = conn.prepareStatement(query);
+			stmnt.setString(1, String.valueOf(id));
+			
+			rs = stmnt.executeQuery();
+			if(rs.next()) {
+				int index = 1;
+				int ID = Integer.valueOf(rs.getString(index++));
+				String Naziv = rs.getString(index++);
+				String Reziser = rs.getString(index++);
+				String Glumci = rs.getString(index++);
+				String Zanrovi = rs.getString(index++);
+				int Trajanje = Integer.valueOf(rs.getString(index++));
+				String Distributer = rs.getString(index++);
+				String Zemlja_Porekla = rs.getString(index++);
+				int Godina_Proizvodnje = Integer.valueOf(rs.getString(index++));
+				String Opis = rs.getString(index++);
+				String status = rs.getString(index++);
+
+				ArrayList<Zanr> listaZanrova = new ArrayList<Zanr>();
+				String[] Zanrs = Zanrovi.split(";");
+				if (Zanrs.length > 0) {
+					for (String znr : Zanrs) {
+						try {
+							listaZanrova.add(Zanr.valueOf(znr));
+						} catch (Exception e) {
+							System.out.println("Greska kod Zanra u FilmoviDAO - " + e);
+						}
+					}
+				} else {
+					listaZanrova.add(Zanr.valueOf("Prazno"));
+				}
+				
+		film = new Film(ID, Naziv, Reziser, Glumci, listaZanrova, Trajanje, Distributer, Zemlja_Porekla, Godina_Proizvodnje, Opis);
+				
+				return film;
+				
+				
+			
+		} else {
+			System.out.println("Nije pronadjen film");
+		}
+	}catch(Exception e) {
+		e.printStackTrace();
+	}finally {
+		ConnectionManager.close(conn, stmnt, rs);
+	}
+		return film;
+	}
+
 	public ArrayList<JSONObject> izlistajFilmove() throws SQLException {
 
 		Connection conn = null;
@@ -51,9 +114,6 @@ public class FilmoviDAO {
 				int Godina_Proizvodnje = Integer.valueOf(rs.getString(index++));
 				String Opis = rs.getString(index++);
 				String status = rs.getString(index++);
-
-				ArrayList<Zanr> Zanrovi_n = new ArrayList<Zanr>();
-				String[] Zanrs = Zanrovi.split(";");
 
 				JSONObject jsonObj = napraviJSONObjekat(ID, Naziv, Reziser, Glumci, Zanrovi, Trajanje, Distributer,
 						Zemlja_Porekla, Godina_Proizvodnje, Opis, status);
@@ -286,41 +346,39 @@ public class FilmoviDAO {
 		}
 		return status;
 	}
-	
+
 	public JSONObject izmeniFilm(HttpServletRequest request) {
 
 		String naziv = request.getParameter("naziv");
-    	int trajanje = 0;
-    	try {
-    		trajanje = Integer.valueOf(request.getParameter("trajanje"));
-    	}
-    	catch(Exception e) {
-    		
-    	}
-    	String id = request.getParameter("id");
-    	String zanrovi = request.getParameter("zanr");
-    	if(zanrovi.length()<1) {
-    		zanrovi = "Prazan";
-    	}
-    	String opis = request.getParameter("opis");
-    	String glumci = request.getParameter("glumci");
-    	String reziser = request.getParameter("reziser");
-    	String godina = request.getParameter("godina");
-    	String distributer = request.getParameter("distributer");
-    	String zemlja = request.getParameter("zemlja");
-    	Boolean status = false;
-    	
-    	JSONObject res = new JSONObject();
-	    
-	    
-	    Connection conn = ConnectionManager.getConnection();
+		int trajanje = 0;
+		try {
+			trajanje = Integer.valueOf(request.getParameter("trajanje"));
+		} catch (Exception e) {
+
+		}
+		String id = request.getParameter("id");
+		String zanrovi = request.getParameter("zanr");
+		if (zanrovi.length() < 1) {
+			zanrovi = "Prazan";
+		}
+		String opis = request.getParameter("opis");
+		String glumci = request.getParameter("glumci");
+		String reziser = request.getParameter("reziser");
+		String godina = request.getParameter("godina");
+		String distributer = request.getParameter("distributer");
+		String zemlja = request.getParameter("zemlja");
+		Boolean status = false;
+
+		JSONObject res = new JSONObject();
+
+		Connection conn = ConnectionManager.getConnection();
 
 		PreparedStatement pstmt = null;
 		try {
 			String query = "UPDATE Filmovi SET Naziv=?,Reziser=?,Glumci=?,Zanrovi=?,Trajanje=?,Distributer=?,Zemlja_Porekla=?,Godina_Proizvodnje=?,Opis=? WHERE ID = ?";
 
 			pstmt = conn.prepareStatement(query);
-			
+
 			pstmt.setString(1, naziv);
 			pstmt.setString(2, reziser);
 			pstmt.setString(3, glumci);
@@ -332,32 +390,34 @@ public class FilmoviDAO {
 			pstmt.setString(9, opis);
 			pstmt.setString(10, id);
 
-			
-
 			int broj = pstmt.executeUpdate();
 
-			if (broj>0) {
+			if (broj > 0) {
 				System.out.println("Doslo je do ovde");
 				status = true;
-			}
-			else {
+			} else {
 				System.out.println("Vraceno 0 redova");
 			}
 
-		} 
-		catch(Exception e) {
-			
+		} catch (Exception e) {
+
+		} finally {
+			try {
+				pstmt.close();
+			} catch (Exception ex1) {
+				ex1.printStackTrace();
+			}
+			try {
+				conn.close();
+			} catch (Exception ex1) {
+				ex1.printStackTrace();
+			} // ako se koristi DBCP2, konekcija se mora vratiti u pool
+
 		}
-		finally {
-			try {pstmt.close();} catch (Exception ex1) {ex1.printStackTrace();}
-			try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();} // ako se koristi DBCP2, konekcija se mora vratiti u pool
-			
-		}
-		res.put("status",status);
+		res.put("status", status);
 		return res;
 	}
 
-	
 	public boolean dodajFilm(HttpServletRequest request) {
 		String naziv = request.getParameter("naziv");
 		int trajanje = 0;
@@ -378,17 +438,17 @@ public class FilmoviDAO {
 		String distributer = request.getParameter("distributer");
 		String zemlja = request.getParameter("zemlja");
 		Boolean status = false;
-		
+
 		Connection conn = null;
 		PreparedStatement stmnt = null;
-		
+
 		try {
 			conn = ConnectionManager.getConnection();
-			
+
 			String query = "INSERT INTO Filmovi(Naziv,Reziser,Glumci,Zanrovi,Trajanje,Distributer,Zemlja_Porekla,Godina_Proizvodnje,Opis) VALUES (?,?,?,?,?,?,?,?,?)";
-			
+
 			stmnt = conn.prepareStatement(query);
-			
+
 			stmnt.setString(1, naziv);
 			stmnt.setString(2, reziser);
 			stmnt.setString(3, glumci);
@@ -398,21 +458,19 @@ public class FilmoviDAO {
 			stmnt.setString(7, zemlja);
 			stmnt.setString(8, godina);
 			stmnt.setString(9, opis);
-			
+
 			int red = stmnt.executeUpdate();
-			if(red>0) {
+			if (red > 0) {
 				status = true;
 			} else {
 				System.out.println("Red nije pronadjen");
 			}
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			ConnectionManager.close(conn, stmnt, null);
 		}
 		return status;
 	}
-	
+
 }

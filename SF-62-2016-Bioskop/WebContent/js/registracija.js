@@ -12,7 +12,7 @@ $("#registracija").on('click',function(){
 			$.post('KorisnikServlet', params, function(data) { 
 				var odg = JSON.parse(data);
 				if(odg.status){
-					window.location.href="index.html";
+					window.location.href="projekcije.html";
 				}
 				else{
 					pushNotification('red',odg.message);
