@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pocetna Stranica KT</title>
+<script src="./js/jquery-3.5.1.js"></script>
+<meta charset="utf-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="css\bootstrap-4.3.1-dist\css\bootstrap.css">
+<script src="css\bootstrap-4.3.1-dist\js\bootstrap.js" charset="utf-8"></script>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/scrollbarstyle.css">
+<link rel="shortcut icon" href="css/favicon.png" />
+<link href="https://fonts.googleapis.com/css?family=Bebas+Neue|Roboto:400,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<script src="./js/main.js" charset="utf-8"></script>
+<link rel="stylesheet" href="./css/nav.css">
+<link rel="stylesheet" href="./css/prikazFilma.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-xl navbar-dark" id="navdiv">
+       <a class="navbar-brand" href="./" id="nav_logo"><span><i class="fas fa-video"></i> Bioskopcic</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#CollapseOptions" aria-controls="CollapseOptions" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="CollapseOptions">
+          <ul class="navbar-nav ml-auto">
+            <a class="nav-opcija" id="nav_filmovi" href="./filmovi.html">
+              <li class="nav-item povecati">
+                Filmovi
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_repertoar" href="./projekcije.html">
+              <li class="nav-item povecati">
+                Repertoar
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_adminPanel" href="./admin_panel.html">
+              <li class="nav-item povecati">
+                Admin Panel
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_profil" href="./moj_profil.html">
+              <li class="nav-item povecati">
+                Moj Profil
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_login" href="./login.html">
+              <li class="nav-item povecati">
+                Login
+              </li>
+            </a>
+            <a class="nav-opcija" id="nav_logout" href="#">
+              <li class="nav-item povecati">
+                Log Out
+              </li>
+            </a>
+          </ul>
+
+        </div>
+  </nav>
+  <div id="notificationdiv">
+
+  </div>
+  <script src="./js/nav.js" charset="utf-8"></script>
+
+  <div id="OnefilmDiv">
+    <div class="row">
+      <span>Film : </span> <select id="ID_Filma"></select>
+    </div>
+    <div class="row">
+      <span>Sala : </span> <select id="ID_Sale"></select>
+    </div>
+    <div class="row">
+      <span>Tip Projekcije : </span> <select id="tipProjekcije"></select>
+    </div>
+    <div class="row">
+      <span>Pocetak Termina : </span> <input id="TerminPocetak" type="datetime-local"></input>
+    </div>
+    <div class="row">
+      <span>Cena Karte : </span> <input type="number" id="cenaKarte">
+    </div>
+    <div class="row">
+      <span>Broj mesta : </span> <span id="maxBrojSedistaSpan">0</span>
+    </div>
+    <div class="row" id="dugmici">
+      <button type="button" name="button" class="confirmbtn margin0" style="margin-top:10px;" id="savebtn">Dodaj Projekciju</button>
+    </div>
+  </div>
+
+<script src="./js/dodajProjekciju.js"></script>
+</body>
+</html>

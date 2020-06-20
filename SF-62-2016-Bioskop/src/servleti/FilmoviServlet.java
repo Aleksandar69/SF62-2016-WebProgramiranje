@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 
 import dao.FilmoviDAO;
+import dao.SalaDAO;
 import model.Film;
 
 /**
@@ -22,7 +23,8 @@ import model.Film;
 public class FilmoviServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private FilmoviDAO filmoviDAO;
+	private FilmoviDAO filmoviDAO = null;
+	private SalaDAO saleDAO = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -32,135 +34,162 @@ public class FilmoviServlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	  @Override public void init() throws ServletException { filmoviDAO = new
-	  FilmoviDAO(); super.init(); }
-	  
-	  
-	  private JSONObject ucitajFilmove() {
-		  
-			boolean status = false;
-			
-			System.out.println("U metodi UcitajFilmove");
+	@Override
+	public void init() throws ServletException {
+		filmoviDAO = new FilmoviDAO();
+		saleDAO = new SalaDAO();
+		super.init();
+	}
 
-			ArrayList<JSONObject> filmovi = new ArrayList<JSONObject>();
-			try {
-				
-				filmovi = filmoviDAO.izlistajFilmove();
-				if(filmovi.size() > 0) {
-					status = true;
-				}
+	private JSONObject ucitajFilmove() {
 
-			} catch (SQLException e) {
-				System.out.println("Puklo u listanju filmova u servletu");
-				e.printStackTrace();
+		boolean status = false;
+
+		System.out.println("U metodi UcitajFilmove");
+
+		ArrayList<JSONObject> filmovi = new ArrayList<JSONObject>();
+		try {
+
+			filmovi = filmoviDAO.izlistajFilmove();
+			if (filmovi.size() > 0) {
+				status = true;
 			}
-			
-			JSONObject res = new JSONObject();
-			
-			res.put("status", status);
-			res.put("filmovi", filmovi);
-			
-			return res;
-	  }
-	  
-	  private JSONObject obrisiFilm(String id) {
-		  boolean status = filmoviDAO.logickoBrisanjeFilm(id);
-		  JSONObject res = new JSONObject();
-		  
-		  res.put("status", status);
-		  
-		  return res;
-	  }
-	  
-	  private JSONObject ucitajJedanFilm(String idFilma) {
-		  boolean status = false;
-		  JSONObject res = new JSONObject();
-		  System.out.println("U metodi ucitajJedanFilm()");
-		  
-		  JSONObject film = null;
-		  
-		  try {
+
+		} catch (SQLException e) {
+			System.out.println("Puklo u listanju filmova u servletu");
+			e.printStackTrace();
+		}
+
+		JSONObject res = new JSONObject();
+
+		res.put("status", status);
+		res.put("filmovi", filmovi);
+
+		return res;
+	}
+
+	private JSONObject obrisiFilm(String id) {
+		boolean status = filmoviDAO.logickoBrisanjeFilm(id);
+		JSONObject res = new JSONObject();
+
+		res.put("status", status);
+
+		return res;
+	}
+
+	private JSONObject ucitajJedanFilm(String idFilma) {
+		boolean status = false;
+		JSONObject res = new JSONObject();
+		System.out.println("U metodi ucitajJedanFilm()");
+
+		JSONObject film = null;
+
+		try {
 			film = filmoviDAO.prikaziJedanFilm(idFilma);
-			if( film!= null) {
+			if (film != null) {
 				status = true;
 			}
 		} catch (NumberFormatException | SQLException e) {
 			e.printStackTrace();
 		}
-		  res.put("status", status);
-		  res.put("film", film);
-		  
-		  return res;
-	  }
-	  
-	  private JSONObject uzmiZanrove() {
-		  JSONObject res = new JSONObject();
-		  ArrayList<String> listaZanrova = filmoviDAO.uzmiSveZanrove();
+		res.put("status", status);
+		res.put("film", film);
+
+		return res;
+	}
+
+	private JSONObject uzmiZanrove() {
+		JSONObject res = new JSONObject();
+		ArrayList<String> listaZanrova = filmoviDAO.uzmiSveZanrove();
+		boolean status = false;
+		if (listaZanrova.size() > 0) {
+			status = true;
+		}
+		res.put("status", status);
+		res.put("zanrovi", listaZanrova);
+		return res;
+	}
+
+	private JSONObject filterFilm(HttpServletRequest request) {
+		String naziv = request.getParameter("naziv");
+		int trajanje = 0;
+		try {
+			trajanje = Integer.valueOf(request.getParameter("trajanje"));
+		} catch (Exception e) {
+			System.out.println("Greska pri uzimanju trajanja koje nema vrijednost u filteru");
+			e.printStackTrace();
+		}
+		System.out.println("posle exceptiona");
+
+		String zanrovi = request.getParameter("zanr");
+		String opis = request.getParameter("opis");
+		String glumci = request.getParameter("glumci");
+		String reziser = request.getParameter("reziser");
+		String godina = request.getParameter("godina");
+		String distributer = request.getParameter("distributer");
+		String zemlja = request.getParameter("zemlja");
+		Boolean status = false;
+		ArrayList<JSONObject> filmovi = new ArrayList<JSONObject>();
+		try {
+			filmovi = filmoviDAO.uzmiOdredjeneFilmove(naziv, trajanje, zanrovi, opis, glumci, reziser, godina,
+					distributer, zemlja);
+
+			if (filmovi.size() > 0) {
+				status = true;
+			}
+		} catch (Exception e) {
+			System.out.println("Puklo je ovde na filteru.");
+			e.printStackTrace();
+		}
+		JSONObject res = new JSONObject();
+
+		res.put("status", status);
+		res.put("filmovi", filmovi);
+
+		return res;
+	}
+
+	private JSONObject izmeniFilm(HttpServletRequest request) {
+
+		JSONObject res = new JSONObject();
+		res = filmoviDAO.izmeniFilm(request);
+		return res;
+	}
+
+	private JSONObject dodajFilm(HttpServletRequest request) {
+		boolean status = filmoviDAO.dodajFilm(request);
+		JSONObject res = new JSONObject();
+		res.put("status", status);
+
+		return res;
+	}
+
+	private JSONObject ucitajPodatkeZaProjekcije(HttpServletRequest request) {
+		  JSONObject jsonObj = new JSONObject();
 		  boolean status = false;
-		  if(listaZanrova.size()>0) {
-			  status = true;
-		  }
-		  res.put("status", status);
-		  res.put("zanrovi", listaZanrova);
-		  return res;
-	  }
-	 
-	  
-	  private JSONObject filterFilm(HttpServletRequest request) {
-		  String naziv = request.getParameter("naziv");
-		  int  trajanje = 0;
-		 	try {
-	    		trajanje = Integer.valueOf(request.getParameter("trajanje"));
-	    	}
-	    	catch(Exception e) {
-	    		System.out.println("Greska pri uzimanju trajanja koje nema vrijednost u filteru");
-	    		e.printStackTrace();
-	    	}
-	    	System.out.println("posle exceptiona");
-
-		 	String zanrovi = request.getParameter("zanr");
-	    	String opis = request.getParameter("opis");
-	    	String glumci = request.getParameter("glumci");
-	    	String reziser = request.getParameter("reziser");
-	    	String godina = request.getParameter("godina");
-	    	String distributer = request.getParameter("distributer");
-	    	String zemlja = request.getParameter("zemlja");
-	    	Boolean status = false;
-	    	ArrayList<JSONObject> filmovi = new ArrayList<JSONObject>();
-	    	try {
-	    		filmovi = filmoviDAO.uzmiOdredjeneFilmove(naziv,trajanje,zanrovi,opis,glumci,reziser,godina,distributer,zemlja);
-	    	
-	    		if(filmovi.size()>0) {
-	    			status = true;
-	    		}
-	    	}
-	    	catch (Exception e) {
-	    		System.out.println("Puklo je ovde na filteru.");
-	    		e.printStackTrace();
-	    	}
-	    	JSONObject res = new JSONObject();
-
-		    res.put("status", status);
-		    res.put("filmovi", filmovi);
-		    
-		    return res;
-	  }
-
-	  
-	  private JSONObject izmeniFilm(HttpServletRequest request) {
-	    	
-	    	JSONObject res = new JSONObject();
-		    res = filmoviDAO.izmeniFilm(request);
-		    return res;
-	    }
-	  
-	  private JSONObject dodajFilm(HttpServletRequest request) {
-		  boolean status = filmoviDAO.dodajFilm(request);
-		  JSONObject res = new JSONObject();
-		  res.put("status", status);
 		  
-		  return res;
+		  String message = "Greska";
+		  
+		  if(((String) request.getSession().getAttribute("uloga")).equals("Admin")) {
+			  try {
+				  ArrayList<JSONObject> f = filmoviDAO.izlistajFilmove();
+				  ArrayList<JSONObject> s = saleDAO.ucitajSveSale();
+				  
+				  jsonObj.put("filmovi", f);
+				  jsonObj.put("sale", s);
+				  status = true;
+				  message = "Podaci ucitani";
+			  }
+			  catch(Exception e){
+				  e.printStackTrace();
+			  }
+		  } else{
+			  message = "Niste ulogovani kao administrator.";
+		  }
+			  jsonObj.put("status", status);
+			  jsonObj.put("message", message);
+			  return jsonObj;
+		
 	  }
 
 	/**
@@ -170,8 +199,6 @@ public class FilmoviServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-    
-
 	}
 
 	/**
@@ -180,15 +207,15 @@ public class FilmoviServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		PrintWriter out = response.getWriter();
 		String action = request.getParameter("action");
 		String filmID = request.getParameter("filmID");
-		
-		switch(action) {
+
+		switch (action) {
 		case "ucitajFilmove":
 			out.print(ucitajFilmove());
-		break;
+			break;
 		case "ucitajFilm":
 			out.print(ucitajJedanFilm(filmID));
 			break;
@@ -206,6 +233,9 @@ public class FilmoviServlet extends HttpServlet {
 			break;
 		case "dodajFilm":
 			out.print(dodajFilm(request));
+			break;
+		case "ucitajZaDodavanjeProjekcije":
+			out.print(ucitajPodatkeZaProjekcije(request));
 			break;
 		}
 	}

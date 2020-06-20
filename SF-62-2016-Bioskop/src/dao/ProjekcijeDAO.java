@@ -3,13 +3,12 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.json.simple.JSONObject;
 
 import model.Projekcija;
 
@@ -106,6 +105,51 @@ public class ProjekcijeDAO {
 			ConnectionManager.close(conn, stmnt, rs);
 		}
 		return projekcija;
+	}
+	
+	public boolean dodajProjekciju(Projekcija projekcija,String krajTermina) {
+		boolean status = false;
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		
+		try {
+			conn = ConnectionManager.getConnection();
+			
+			String query = "INSERT INTO Projekcije(ID_Filma,TipProjekcije,ID_Sale,Termin,CenaKarte,Administrator,Status,MaksimumKarata,KrajTermina) VALUES (?,?,?,?,?,?,?,?,?)";
+
+			stmnt = conn.prepareStatement(query);
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date datum = new Date();
+			stmnt.setString(1, String.valueOf(projekcija.getFilm()));
+			stmnt.setString(2, projekcija.getTipProjekcije());
+			stmnt.setString(3, String.valueOf(projekcija.getSala()));
+			
+			Date datum1 = projekcija.getDatumiVrijemePrikazivanja();
+			DateFormat dateFormatSaSatom = new SimpleDateFormat("yyyy-MM-dd HH:mm");      
+			String pocetak = dateFormatSaSatom.format(datum1);
+			
+			stmnt.setString(4, String.valueOf(pocetak));
+			stmnt.setString(5, String.valueOf(projekcija.getCijenaKarte()));
+			stmnt.setString(6, projekcija.getUsernameAdministratora());
+			stmnt.setString(7, "Active");
+			stmnt.setString(8, String.valueOf(projekcija.getMaksimumKarata()));
+			stmnt.setString(9, krajTermina);
+			
+			int red = stmnt.executeUpdate();
+			
+			if(red > 0) {
+				status = true;
+			}
+		}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			finally {
+				ConnectionManager.close(conn, stmnt, null);
+			}
+			
+			return status;
 	}
 
 }
