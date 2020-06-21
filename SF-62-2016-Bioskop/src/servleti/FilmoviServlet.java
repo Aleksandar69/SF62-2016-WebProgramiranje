@@ -164,33 +164,6 @@ public class FilmoviServlet extends HttpServlet {
 		return res;
 	}
 
-	private JSONObject ucitajPodatkeZaProjekcije(HttpServletRequest request) {
-		  JSONObject jsonObj = new JSONObject();
-		  boolean status = false;
-		  
-		  String message = "Greska";
-		  
-		  if(((String) request.getSession().getAttribute("uloga")).equals("Admin")) {
-			  try {
-				  ArrayList<JSONObject> f = filmoviDAO.izlistajFilmove();
-				  ArrayList<JSONObject> s = saleDAO.ucitajSveSale();
-				  
-				  jsonObj.put("filmovi", f);
-				  jsonObj.put("sale", s);
-				  status = true;
-				  message = "Podaci ucitani";
-			  }
-			  catch(Exception e){
-				  e.printStackTrace();
-			  }
-		  } else{
-			  message = "Niste ulogovani kao administrator.";
-		  }
-			  jsonObj.put("status", status);
-			  jsonObj.put("message", message);
-			  return jsonObj;
-		
-	  }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -233,9 +206,6 @@ public class FilmoviServlet extends HttpServlet {
 			break;
 		case "dodajFilm":
 			out.print(dodajFilm(request));
-			break;
-		case "ucitajZaDodavanjeProjekcije":
-			out.print(ucitajPodatkeZaProjekcije(request));
 			break;
 		}
 	}

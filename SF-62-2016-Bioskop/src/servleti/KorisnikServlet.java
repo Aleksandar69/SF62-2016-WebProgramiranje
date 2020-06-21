@@ -10,10 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-import com.sun.net.httpserver.HttpsServer;
 
 import dao.KorisnikDAO;
-import jdk.nashorn.internal.runtime.Undefined;
 
 /**
  * Servlet implementation class KorisnikServlet

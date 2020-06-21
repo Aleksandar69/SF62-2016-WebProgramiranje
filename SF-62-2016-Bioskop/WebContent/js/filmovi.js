@@ -47,12 +47,10 @@ $.post("FilmoviServlet", params, function(data){
 						action: "obrisiFilm",
 						filmID: this.getAttribute('data-movieID')
 					}
-					// kontrola toka se račva na 2 grane
-				$.post('FilmoviServlet', params, function(data) { // u posebnoj programskoj niti se šalje (asinhroni) zahtev
-						// tek kada stigne resovor izvršiće se ova anonimna funkcija
+				$.post('FilmoviServlet', params, function(data) { 
 						var res = JSON.parse(data);
 						if(res.status){
-							window.location.href="filmovi.html";
+							window.location.href="projekcije.html";
 						}
 						else{
 							pushNotification('red',"Greska prilikom brisanja");

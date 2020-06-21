@@ -38,4 +38,31 @@ $.post('ProjekcijeServlet',params,function(data){
           dugme.style="font-size: 18px;margin: 0 auto;margin-top:10px;";
           document.getElementById('dugmici').appendChild(dugme);
         }
+      if(Object.keys(odg).length==0){
+          window.location.href="projekcije.html";
+        }
+      
+      $("#obrisibtn").on('click',function(){
+          if(confirm("Da li ste sigurni da zelite da obrisete projekciju?")){
+
+      		var params = {
+					'action': "obrisiProj",
+					'idProjekcije': id
+				}
+			$.post('ProjekcijeServlet', params, function(data) { 
+					var res = JSON.parse(data);
+					if(res.status){
+						pushNotification('green', res.message);
+						window.location.href="projekcije.html";
+					}
+					else{
+						pushNotification('red', res.message);
+					}
+
+			});
+      		
+          }
+        })
 });
+
+

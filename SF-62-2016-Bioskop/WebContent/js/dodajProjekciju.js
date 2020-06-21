@@ -8,7 +8,7 @@ var params = {
 	    'action' : "ucitajZaDodavanjeProjekcije"
 	}
 
-$.post('FilmoviServlet',params,function(data){
+$.post('ProjekcijeServlet',params,function(data){
     var odg = JSON.parse(data);
     console.log(odg);
     for(i=0;i<odg.filmovi.length;i++){

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
-import com.sun.xml.internal.ws.Closeable;
 
 import model.Sala;
 import model.TipProjekcije;
