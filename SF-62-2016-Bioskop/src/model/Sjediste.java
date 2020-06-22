@@ -3,7 +3,7 @@ package model;
 public class Sjediste {
 	
 	private int RedniBroj;
-	private Sala sala;
+	private int salaId;
 	public int getRedniBroj() {
 		return RedniBroj;
 	}
@@ -12,20 +12,20 @@ public class Sjediste {
 	}
 	
 	
-	public Sjediste(int redniBroj, Sala sala) {
+	public Sjediste(int redniBroj, int salaId) {
 		super();
 		RedniBroj = redniBroj;
-		this.sala = sala;
+		this.salaId = salaId;
 	}
 
 	public void setRedniBroj(int redniBroj) {
 		RedniBroj = redniBroj;
 	}
-	public Sala getSala() {
-		return sala;
+	public int getSala() {
+		return salaId;
 	}
-	public void setSala(Sala sala) {
-		this.sala = sala;
+	public void setSala(int salaId) {
+		this.salaId = salaId;
 	}
 	
 	

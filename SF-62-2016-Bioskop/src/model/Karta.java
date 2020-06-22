@@ -5,20 +5,20 @@ import java.util.Date;
 public class Karta {
 
 	private int id;
-	private Projekcija projekcija;
-	private Sjediste sjediste;
-	private Date date;
+	private String projekcijaID;
+	private String oznakaSjediste;
+	private Date datumProdaje;
 	private String korisnikUsername;
 	
 	
 	public Karta() {}
 	
-	public Karta(int id, Projekcija projekcija, Sjediste sjediste, Date date, String korisnikUsername) {
+	public Karta(int id, String projekcijaID,String oznakaSjediste, Date date, String korisnikUsername) {
 		super();
 		this.id = id;
-		this.projekcija = projekcija;
-		this.sjediste = sjediste;
-		this.date = date;
+		this.projekcijaID = projekcijaID;
+		this.oznakaSjediste = oznakaSjediste;
+		this.datumProdaje = date;
 		this.korisnikUsername = korisnikUsername;
 	}
 	public int getId() {
@@ -27,23 +27,23 @@ public class Karta {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Projekcija getProjekcija() {
-		return projekcija;
+	public String getProjekcija() {
+		return projekcijaID;
 	}
-	public void setProjekcija(Projekcija projekcija) {
-		this.projekcija = projekcija;
+	public void setProjekcija(String projekcijaID) {
+		this.projekcijaID = projekcijaID;
 	}
-	public Sjediste getSjediste() {
-		return sjediste;
+	public String getSjediste() {
+		return oznakaSjediste;
 	}
-	public void setSjediste(Sjediste sjediste) {
-		this.sjediste = sjediste;
+	public void setSjediste(String sjedisteID) {
+		this.oznakaSjediste = sjedisteID;
 	}
 	public Date getDate() {
-		return date;
+		return datumProdaje;
 	}
 	public void setDate(Date date) {
-		this.date = date;
+		this.datumProdaje = date;
 	}
 	public String getKorisnikUsername() {
 		return korisnikUsername;

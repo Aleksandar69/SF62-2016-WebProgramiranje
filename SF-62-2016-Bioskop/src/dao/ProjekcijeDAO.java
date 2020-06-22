@@ -81,7 +81,6 @@ public class ProjekcijeDAO {
 				int cijenaKarte = Integer.valueOf(rs.getString(index++));
 				String admin = rs.getString(index++);
 				String statusdb = rs.getString(index++);
-				;
 				String maksStr = rs.getString(index++);
 				int maksKarata = Integer.valueOf(maksStr);
 				String prodStr = rs.getString(index++);
@@ -229,6 +228,34 @@ public class ProjekcijeDAO {
 			ConnectionManager.close(conn, stmnt, null);
 		}
 		return status;
+	}
+	
+	public boolean smanjiStanjeKarata(String projekcijaID) {
+		boolean status = false;
+		
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		
+		try {
+			conn = ConnectionManager.getConnection();
+			
+			String query = "UPDATE Projekcije SET BrojProdanihKarata=BrojProdanihKarata+1 WHERE ID=?";
+
+			stmnt = conn.prepareStatement(query);
+			stmnt.setString(1, projekcijaID);
+			
+			int red =stmnt.executeUpdate();
+			if(red > 0) {
+				status = true;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close(conn, stmnt, null);
+		}
+		return status;
+		
 	}
 
 }

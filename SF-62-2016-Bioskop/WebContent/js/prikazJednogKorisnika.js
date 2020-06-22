@@ -83,6 +83,53 @@ $("#saveUser").on('click',function(){
 			pushNotification('red',"Nije bilo moguce promeniti atribute korisnika.");
 		}
 	})
-})
+});
 
+var params = {
+	    'action' : 'ucitajKarteKorisnika',
+	    'id' : id1
+	}
+	$.post('KarteServlet',params,function(data){
+	    var res = JSON.parse(data);
+
+			if(res.status){
+				for(i=0;i<res.karte.length;i++){
+					var k = res.karte[i];
+					var tr = document.createElement('tr');
+					var td1= document.createElement('td');
+					td1.innerText=k.nazivFilma;
+					td1.setAttribute('data-idFilma',k.ID_filma);
+					td1.className="ticket_filmName";
+					tr.appendChild(td1);
+
+					var td2= document.createElement('td');
+					td2.innerText=k.sediste;
+					tr.appendChild(td2);
+
+					var td3= document.createElement('td');
+					td3.innerText=k.Termin;
+					tr.appendChild(td3);
+
+					var td4= document.createElement('td');
+					td4.innerHTML="<button class='pogledajbtn confirmbtn' data-idKarte='"+k.ID+"' data-idKorisnika='"+id1+"'>Pogledaj Kartu</button>";
+					td4.className="ticket_button";
+					tr.appendChild(td4);
+
+					document.getElementById('karteTable').appendChild(tr);
+				}
+				$(".pogledajbtn").on('click',function(){
+					localStorage['kartaKorisnik']=this.getAttribute('data-idKorisnika');
+					window.location.href="karta.html?id="+this.getAttribute('data-idKarte');
+				})
+			}
+			else{
+				localStorage['poruka']="red|Desila se greska, molimo Vas da pokusate kasnije";
+
+			}
+			if(res.karte.length==0){
+				document.getElementById('karteTable').style.display="none";
+				localStorage.removeItem('poruka');
+				pushNotification("red","Ne postoje karte za tog korisnika.");
+			}
+	});
 

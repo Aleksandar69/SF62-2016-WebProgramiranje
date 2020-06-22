@@ -26,5 +26,19 @@ function ucitajFilm(idFilma){
 
 		}
 		
+		if(localStorage['status']!="false" && res.imaKarata){
+			var dugme = document.createElement('button');
+			dugme.className="confirmbtn";
+			dugme.innerText = "Kupi kartu";
+			dugme.setAttribute('data-IDFilma',res.film.ID);
+			dugme.setAttribute('ID',"kupiKartubtn");
+			dugme.style="font-size: 18px;margin: 0 auto;margin-top:10px;";
+			document.getElementById('dugmici').appendChild(dugme);
+
+			$("#kupiKartubtn").on('click',function(){
+				localStorage['projekcija_film_id'] = $("#kupiKartubtn").attr('data-IDFilma');
+				window.location.href="projekcije.html";
+			})
+		}
 	});
 }

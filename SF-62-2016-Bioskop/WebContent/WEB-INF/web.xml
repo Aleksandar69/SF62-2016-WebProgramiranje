@@ -37,4 +37,14 @@
     <servlet-name>ProjekcijeServlet</servlet-name>
     <url-pattern>/ProjekcijeServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>KarteServlet</display-name>
+    <servlet-name>KarteServlet</servlet-name>
+    <servlet-class>servleti.KarteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>KarteServlet</servlet-name>
+    <url-pattern>/KarteServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
