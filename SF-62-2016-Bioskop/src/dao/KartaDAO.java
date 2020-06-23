@@ -183,5 +183,75 @@ public class KartaDAO {
 		}
 		return listaKarata;
 	}
+	
+	public Karta nadjiKartuPrekoIDa(String idKarta) {
+		Karta karta = null;
+		
+		SjedisteDAO sjedDAO = new SjedisteDAO();
+		
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = ConnectionManager.getConnection();
+			
+			String query = "SELECT ID,ID_Projekcije,ID_Sedista,VremeProdaje,Korisnik FROM Karta WHERE ID=?";
+
+			stmnt = conn.prepareStatement(query);
+			stmnt.setString(1, idKarta);
+			
+			rs = stmnt.executeQuery();
+			
+			if(rs.next()) {
+				int index = 1;
+				
+				String id = rs.getString(index++);
+				int kartaID = Integer.valueOf(id);
+				String idProjekcija = rs.getString(index++);
+				String idSjediste = rs.getString(index++);
+				String sjedisteOznaka = String.valueOf(sjedDAO.nadjiSjedistepoIDu(idSjediste).getRedniBroj());
+				String vrijemeProdaje = rs.getString(index++);
+				DateFormat dateForm = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				Date datum = dateForm.parse(vrijemeProdaje);
+				String korisnik = rs.getString(index++);
+				karta = new Karta(kartaID, idProjekcija, sjedisteOznaka, datum, korisnik);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close(conn, stmnt, rs);
+		}
+		return karta;
+	}
+	
+	public static boolean obrisiKartu(String kartaID) {
+		boolean status = false;
+		
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		
+		try {
+			conn = ConnectionManager.getConnection();
+			String query = "DELETE FROM Karta WHERE ID=?";
+			
+			stmnt = conn.prepareStatement(query);
+			stmnt.setString(1, kartaID);
+			
+			int red = stmnt.executeUpdate();
+			if(red > 0) {
+				status = true;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close(conn, stmnt, null);
+		}
+		return status;
+	}
 
 }

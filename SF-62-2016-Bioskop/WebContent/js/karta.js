@@ -38,3 +38,22 @@ var params = {
 				window.location.href="index.html";
 			}
 	});
+
+$("#deletebtn").on('click',function(){
+	  if(confirm("Da li sigurno zelite da obrisete ovu kartu?")){
+	    var params = {
+	      'action' : 'obrisiKartu',
+	      'idKarte' : id1
+	    }
+	    $.post("KarteServlet",params,function(data){
+	      var odg = JSON.parse(data);
+	      if(odg.status){
+	        localStorage['poruka']="green|"+odg.message;
+	      }
+	      else{
+	        localStorage['poruka']="red|"+odg.message;
+	      }
+	      window.location.href="adminPanel.html";
+	    })
+	  }
+	});

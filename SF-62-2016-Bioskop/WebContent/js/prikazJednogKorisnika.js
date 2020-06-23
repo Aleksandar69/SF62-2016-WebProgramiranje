@@ -63,6 +63,17 @@ $("#saveUser").on('click',function(){
 	var novasifra = $("#user_pass").val();
 	var novaUloga = $("#user_ulogaselect").val();
 
+/*	var promenjenaSifra = true;
+	var novasifra = $("#user_pass").val();
+	if(novasifra=="" || novasifra==null || novasifra==undefined){
+		promenjenaSifra = false;
+	}
+	var promenjenaUloga = false;
+	var novaUloga = $("#user_ulogaselect").val();
+	if(localStorage['uloga']=="Admin"){
+		promenjenaUloga = true;
+	}*/
+	
 	var params  = {
 			"action" : "editUser",
 			"promenjenaSifra" : false,
@@ -72,14 +83,14 @@ $("#saveUser").on('click',function(){
 			"idKorisnika" : id1
 		}
 	$.post('KorisnikServlet',params,function(data){
-		var res= JSON.parse(data);
-		if(res.promenjenaSifra){
+		var resp= JSON.parse(data);
+		if(resp.promenjenaSifra){
 			pushNotification("green","Uspesno ste promenili sifru");
 		}
-		if(res.promenjenaUloga){
+		if(resp.promenjenaUloga){
 			pushNotification('green',"Uspesno ste promenili ulogu");
 		}
-		if(!res.promenjenaSifra && !res.promenjenaUloga){
+		if(!resp.promenjenaSifra && !resp.promenjenaUloga){
 			pushNotification('red',"Nije bilo moguce promeniti atribute korisnika.");
 		}
 	})

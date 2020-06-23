@@ -13,7 +13,7 @@ $("#loginbutton").on("click", function(){
 		$.post("KorisnikServlet", params, function(data){
 			let res = JSON.parse(data);
 			if(res.status){
-				window.location.href="filmovi.html";
+				window.location.href="projekcije.html";
 			}
 			else{
 				pushNotification("red", res.message);

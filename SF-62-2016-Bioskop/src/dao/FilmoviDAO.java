@@ -470,5 +470,34 @@ public class FilmoviDAO {
 		}
 		return status;
 	}
+	
+	public boolean filmImaSlobodnihProjekcija(String filmID) {
+		boolean status = false;
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = ConnectionManager.getConnection();
+			
+			String query = "SELECT * FROM Projekcije WHERE ID_Filma = ? AND MaksimumKarata-BrojProdanihKarata>0";
+			
+			stmnt = conn.prepareStatement(query);
+			stmnt.setString(1, filmID);
+			
+			rs = stmnt.executeQuery();
+			
+			if(rs.next()) {
+				status = true;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close(conn, stmnt, rs);
+		}
+		return status;
+	}
 
 }

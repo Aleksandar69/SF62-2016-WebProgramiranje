@@ -15,6 +15,38 @@ import org.json.simple.JSONObject;
 import model.Projekcija;
 
 public class ProjekcijeDAO {
+	
+	public ArrayList<Projekcija> uzmiProjekcijeZaFilm(String filmID, String termin){
+		ArrayList<Projekcija> lista = new ArrayList<Projekcija>();
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+		
+		try {
+			String query = "SELECT ID FROM Projekcije WHERE Status='Active' AND ID_Filma=? AND (Termin BETWEEN ? AND ?)ORDER BY ID ASC;";
+
+			stmnt = conn.prepareStatement(query);
+			stmnt.setString(1, filmID);
+			stmnt.setString(2, termin);
+			stmnt.setString(3, termin+" 23:59:59");
+			rs = stmnt.executeQuery();
+			while(rs.next()) {
+				int index = 1;
+				String id = rs.getString(index++);
+				Projekcija proj = nadjiProjPoIdu(Integer.valueOf(id));
+				lista.add(proj);
+				
+			}
+			
+	}
+	catch(Exception e) {
+		e.printStackTrace();
+	}
+	finally {
+		ConnectionManager.close(conn, stmnt, rs);
+	}
+		return lista;
+	}
 
 	public ArrayList<Projekcija> ucitajDanasnjeProjekcije(HttpServletRequest request, String datum) {
 		boolean status = false;

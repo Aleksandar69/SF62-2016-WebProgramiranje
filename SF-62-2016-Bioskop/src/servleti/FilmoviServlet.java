@@ -87,6 +87,8 @@ public class FilmoviServlet extends HttpServlet {
 		try {
 			film = filmoviDAO.prikaziJedanFilm(idFilma);
 			if (film != null) {
+				boolean imaMjesta = filmoviDAO.filmImaSlobodnihProjekcija(idFilma);
+				res.put("imaKarata", imaMjesta);
 				status = true;
 			}
 		} catch (NumberFormatException | SQLException e) {

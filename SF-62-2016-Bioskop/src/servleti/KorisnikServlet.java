@@ -83,7 +83,7 @@ public class KorisnikServlet extends HttpServlet {
 	}
 
 	private JSONObject editUser(HttpServletRequest request) {
-		JSONObject res = new JSONObject();
+		JSONObject resp = new JSONObject();
 		boolean uloga = false;
 		boolean sifra = false;
 
@@ -101,9 +101,9 @@ public class KorisnikServlet extends HttpServlet {
 				uloga = korisnikDAO.promijeniUlogu(request, idKorisnika, novaUloga);
 			}
 		}
-		res.put("promenjenaSifra", sifra);
-		res.put("promenjenaUloga", uloga);
-		return res;
+		resp.put("promenjenaSifra", sifra);
+		resp.put("promenjenaUloga", uloga);
+		return resp;
 	}
 
 	private JSONObject filtrirajKorisnike(HttpServletRequest request) {
@@ -164,6 +164,7 @@ public class KorisnikServlet extends HttpServlet {
 				break;
 			case "editUser":
 				out.print(editUser(request));
+				break;
 			case "filter":
 				out.print(filtrirajKorisnike(request));
 				break;

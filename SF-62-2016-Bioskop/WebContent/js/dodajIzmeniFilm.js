@@ -1,4 +1,3 @@
-alert("ovde");
 setInterval(function(){
 	if(localStorage['uloga']!="Admin"){
 		window.location.href="projekcije.html";
@@ -43,7 +42,6 @@ function ucitajFilm(idFilma){
 		}
 		$.post('FilmoviServlet', params, function(data) { 
 			var res = JSON.parse(data);
-			console.log(res);
 			if(res.status){
 				var f = res.film;
 				$("#f_title").val(f.Naziv);
@@ -67,7 +65,6 @@ $("#savebtn").on('click',function(){
   var url_string = window.location.href;
   var url = new URL(url_string);
   var id = url.searchParams.get("id");
-	console.log(id);
   if(id==null){
     var params = {
       'action' : 'dodajFilm',

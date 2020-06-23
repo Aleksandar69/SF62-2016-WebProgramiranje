@@ -38,9 +38,9 @@ $.post("FilmoviServlet", params, function(data){
 				window.location.href="prikazFilma.html?id="+id;
 			}
 		});
-		$(".addMovie").on("click", function(){
+		/*$(".addMovie").on("click", function(){
 			window.location.href="dodajIzmijeniFilm.html"
-		});
+		});*/
 		$(".deleteMovie").on("click",function(){
 			if(confirm("Da li ste sigurni da zelite da obrisete?")){
 				var params = {
@@ -133,7 +133,8 @@ $("#filterBtnFilm").on("click", function(){
 			$(".movie_name").on("click", function(){
 				var id = this.getAttribute('data-filmid');
 				if(id>0 && id!=null && id!=undefined){
-					window.location.href="http://localhost:8080/SF-62-2016-Bioskop//prikazJednogFilma.html?id="+id;
+					window.location.href="prikazFilma.html?id="+id;
+					//http://localhost:8080/SF-62-2016-Bioskop/
 				}
 			});
 		}

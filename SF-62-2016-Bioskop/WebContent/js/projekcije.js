@@ -94,6 +94,11 @@ $.post('ProjekcijeServlet',params,function(data){
         for(k=0;k<opcije.length;k++){
           if(opcije[k].getAttribute('data-idfilma')==x){
             opcije[k].selected = true;
+            
+            var now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('f_pocetakOd').value = now.toISOString().slice(0,16);
+            
           }
           else{
           }
@@ -135,7 +140,8 @@ $("#filterbtn").on('click',function(){
     $.post('ProjekcijeServlet',params,function(data){
       var odg = JSON.parse(data);
       if(odg.status){
-        $('tr').slice(1).remove();
+    	  $("#tabelaProjekcija").show();
+       $('tr').slice(1).remove();
         for(i=0;i<odg.lista.length;i++){
           var p = odg.lista[i];
           var tr = document.createElement('tr');
@@ -170,7 +176,7 @@ $("#filterbtn").on('click',function(){
           document.getElementById('tabelaProjekcija').append(tr);
         }
         $(".pogledajprojbtn").on('click',function(data){
-          window.location.href="prikazJedneProjekcije.html?id="+this.getAttribute('data-idProjekcije');
+          window.location.href="prikazProjekcije.html?id="+this.getAttribute('data-idProjekcije');
         });
         $(".proj_film_link").on('click',function(data){
           window.location.href="prikazJednogFilma.html?id="+this.getAttribute('data-idFilma');

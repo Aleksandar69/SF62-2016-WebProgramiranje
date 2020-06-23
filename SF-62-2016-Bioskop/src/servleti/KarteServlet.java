@@ -181,6 +181,37 @@ public class KarteServlet extends HttpServlet {
     	res.put("message", message);
     	return res;
     }
+	
+	private JSONObject obrisiKartu(HttpServletRequest request) {
+		String uloga = (String) request.getSession().getAttribute("uloga");
+		JSONObject res = new JSONObject();
+		boolean status = false;
+		String message = "";
+		
+		if(uloga=="Admin") {
+			String idKarte = request.getParameter("idKarte");
+			try {
+				Karta karta = kartaDAO.nadjiKartuPrekoIDa(idKarte);
+				Projekcija proj = projDAO.nadjiProjPoIdu(Integer.valueOf(karta.getProjekcija()));
+				if(proj.getDatumiVrijemePrikazivanja().compareTo(new Date()) > 0) {
+					status = kartaDAO.obrisiKartu(idKarte);
+					if(status) {
+						message = "Uspjesno ste obrisali kartu";
+					}
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+				status = false;
+				message = "Greska";
+			}
+		}
+		else {
+			message = "Niste ulogovani kao admin";
+		}
+		res.put("status", status);
+		res.put("message", message);
+		return res;
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -215,6 +246,8 @@ public class KarteServlet extends HttpServlet {
 				if(kor != null) {korIme = kor.getKorIme();}
 				out.print(ucitajKarteZaKor(request, korIme));
 				break;
+			case "obrisiKartu":
+				out.print(obrisiKartu(request));
 			}
 		}
 	}

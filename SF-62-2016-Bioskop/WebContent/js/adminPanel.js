@@ -59,3 +59,51 @@ $("#filterUsers").on('click',function(){
 		}
 	});
 	});
+
+$(document).ready(function(){
+	$("#izvestajbtn").on('click',function(){
+		var vreme = $("#vreme").val();
+		if(vreme.length==10){
+				var params = {
+		        'action' : 'izvestaj',
+		        'datum' : vreme
+		      }
+		      $.post('AdminServlet',params,function(data){
+						$("#izvestajTabela").find("tr:gt(1)").remove();
+		        var odg = JSON.parse(data);
+						for(i=0;i<odg.length;i++){
+							var f = odg[i];
+							var tr = document.createElement('tr');
+							tr.className="item";
+
+							var td1 = document.createElement('td');
+							td1.innerText = f.Naziv;
+							td1.setAttribute('data-IDFilma',f.ID);
+							td1.className="izvestajlink";
+
+							tr.appendChild(td1);
+
+							var td2 = document.createElement('td');
+							td2.innerText=f.BrojProjekcija;
+							tr.appendChild(td2);
+
+							var td3 = document.createElement('td');
+							td3.innerText = f.brojProdatihKarata;
+							tr.appendChild(td3);
+
+							var td4 = document.createElement('td');
+							td4.innerText = f.zarada;
+							tr.appendChild(td4);
+
+
+
+							document.getElementById('izvestajTabela').appendChild(tr);
+						}
+						$(".izvestajlink").on('click',function(){
+							window.location.href="prikazFilma.html?id="+this.getAttribute('data-IDFilma');
+						})
+		      });
+			};
+		});
+
+})
