@@ -1,6 +1,9 @@
 var params = {
   'action': "ucitajProjekcijeZaDanas"
 }
+
+var idFilma;
+
 $.post('ProjekcijeServlet',params,function(data){
   var odg = JSON.parse(data);
   if(odg.status){
@@ -12,6 +15,7 @@ $.post('ProjekcijeServlet',params,function(data){
       var td1 = document.createElement('td');
       td1.innerText = p.naziv_filma;
       td1.setAttribute('data-idFilma',p.id_filma);
+      idFilma = p.id_filma;
       td1.className="proj_film_link";
       tr.appendChild(td1);
 
@@ -179,7 +183,7 @@ $("#filterbtn").on('click',function(){
           window.location.href="prikazProjekcije.html?id="+this.getAttribute('data-idProjekcije');
         });
         $(".proj_film_link").on('click',function(data){
-          window.location.href="prikazJednogFilma.html?id="+this.getAttribute('data-idFilma');
+          window.location.href="prikazFilma.html?id="+this.getAttribute("data-idFilma");
         });
 
 

@@ -17,8 +17,7 @@ $.post("FilmoviServlet", params, function(data){
 			
 			if(localStorage['uloga']=="Admin"){
 				dugmicitamoneki = "<span class='editMovie' data-movieID='"+film.ID+"'></span>" +
-						"<span class='deleteMovie' data-movieID='"+film.ID+"'></span>" +
-								"<span class='addMovie' data-movieID='"+film.ID+"'> </span>";
+						"<span class='deleteMovie' data-movieID='"+film.ID+"'></span>";
 			}
 			else{
 				dugmicitamoneki = "<span class='pogledajMovie' data-movieID='"+film.ID+"'></span>"
@@ -125,11 +124,46 @@ $("#filterBtnFilm").on("click", function(){
 				var tr = document.createElement('tr');
 				tr.className="item";
 				tr.setAttribute("data-FilmID", film.ID);
-				tr.innerHTML = "<td class='movie_name' data-filmid='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td><span class='editMovie' data-movieID='"+film.ID+"'></span><span class='deleteMovie' data-movieID='"+film.ID+"'></span></td>";
+				if(localStorage['uloga']=="Admin"){
+					dugmicitamoneki = "<span class='editMovie' data-movieID='"+film.ID+"'></span>" +
+							"<span class='deleteMovie' data-movieID='"+film.ID+"'></span>";
+									
+				}
+				else{
+					dugmicitamoneki = "<span class='pogledajMovie' data-movieID='"+film.ID+"'></span>"
+				}
+				tr.innerHTML = "<td class='movie_name' data-filmid='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+dugmicitamoneki+"</td>";
 				tabela.appendChild(tr);	
 				}
 				}
+			$(".deleteMovie").on("click",function(){
+				if(confirm("Da li ste sigurni da zelite da obrisete?")){
+					var params = {
+							action: "obrisiFilm",
+							filmID: this.getAttribute('data-movieID')
+						}
+					$.post('FilmoviServlet', params, function(data) { 
+							var res = JSON.parse(data);
+							if(res.status){
+								window.location.href="projekcije.html";
+							}
+							else{
+								pushNotification('red',"Greska prilikom brisanja");
+							}
+
+					});
+				}
+			});
+			$(".editMovie").on('click',function(){
+				window.location.href="dodajIzmijeniFilm.html?id=" +this.getAttribute('data-movieID');;
+			});
 			
+			$(".pogledajMovie").on("click", function(){
+				let id= this.getAttribute("data-movieID");
+				if(id>0 && id!=null && id!=undefined){
+					window.location.href="prikazFilma.html?id="+id;
+				}
+			});
 			$(".movie_name").on("click", function(){
 				var id = this.getAttribute('data-filmid');
 				if(id>0 && id!=null && id!=undefined){
