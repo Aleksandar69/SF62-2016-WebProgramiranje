@@ -391,10 +391,8 @@ public class FilmoviDAO {
 			int broj = pstmt.executeUpdate();
 
 			if (broj > 0) {
-				System.out.println("Doslo je do ovde");
 				status = true;
 			} else {
-				System.out.println("Vraceno 0 redova");
 			}
 
 		} catch (Exception e) {
@@ -416,13 +414,14 @@ public class FilmoviDAO {
 		return res;
 	}
 
-	public boolean dodajFilm(HttpServletRequest request) {
+	public JSONObject dodajFilm(HttpServletRequest request) {
+		JSONObject res = new JSONObject();
 		String naziv = request.getParameter("naziv");
 		int trajanje = 0;
 		try {
 			trajanje = Integer.valueOf(request.getParameter("trajanje"));
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		String id = request.getParameter("id");
 		String zanrovi = request.getParameter("zanr");
@@ -468,7 +467,8 @@ public class FilmoviDAO {
 		} finally {
 			ConnectionManager.close(conn, stmnt, null);
 		}
-		return status;
+		res.put("status", status);
+		return res;
 	}
 	
 	public boolean filmImaSlobodnihProjekcija(String filmID) {

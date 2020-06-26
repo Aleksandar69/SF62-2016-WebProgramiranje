@@ -80,7 +80,6 @@ public class FilmoviServlet extends HttpServlet {
 	private JSONObject ucitajJedanFilm(String idFilma) {
 		boolean status = false;
 		JSONObject res = new JSONObject();
-		System.out.println("U metodi ucitajJedanFilm()");
 
 		JSONObject film = null;
 
@@ -159,10 +158,8 @@ public class FilmoviServlet extends HttpServlet {
 	}
 
 	private JSONObject dodajFilm(HttpServletRequest request) {
-		boolean status = filmoviDAO.dodajFilm(request);
 		JSONObject res = new JSONObject();
-		res.put("status", status);
-
+		res = filmoviDAO.dodajFilm(request);
 		return res;
 	}
 

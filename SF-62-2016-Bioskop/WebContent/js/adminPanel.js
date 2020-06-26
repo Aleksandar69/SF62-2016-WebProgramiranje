@@ -31,20 +31,18 @@ $("#filterUsers").on('click',function(){
 	var params = {
     'action' : "filter",
     'username' : $("#f_username").val(),
-    'password' : '',
-    'datum' : '',
     'tip' : $("#Uloge").val()
 }
 	
 	$.post('KorisnikServlet',params,function(data){
-		var odg = JSON.parse(data);
+		var res = JSON.parse(data);
 		
-		if(odg.status){
+		if(res.status){
 			pushNotification('green','Filtrirano!');
 			var t = document.getElementById('Korisnici');
 			$("#Korisnici").find("tr:gt(1)").remove();
-			for(i=0;i<odg.lista.length;i++){
-				var k = odg.lista[i];
+			for(i=0;i<res.lista.length;i++){
+				var k = res.lista[i];
 				var r = document.createElement('tr');
 				r.className="item";
 				r.innerHTML="<td data-id='"+k.ID+"' class='usernamelink'>"+k.Username+"</td><td>"+k.Datum+"</td><td>"+k.Uloga+"</td><td>"+k.Status+"</td>";
@@ -70,9 +68,9 @@ $(document).ready(function(){
 		      }
 		      $.post('AdminServlet',params,function(data){
 						$("#izvestajTabela").find("tr:gt(1)").remove();
-		        var odg = JSON.parse(data);
-						for(i=0;i<odg.length;i++){
-							var f = odg[i];
+		        var res = JSON.parse(data);
+						for(i=0;i<res.length;i++){
+							var f = res[i];
 							var tr = document.createElement('tr');
 							tr.className="item";
 

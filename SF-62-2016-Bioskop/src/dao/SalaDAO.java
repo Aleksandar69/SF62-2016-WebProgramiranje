@@ -61,7 +61,7 @@ public class SalaDAO {
 		TipProjekcijeDAO tipProjDao = new TipProjekcijeDAO();
 
 		
-		ArrayList<JSONObject> sale = new ArrayList<JSONObject>();
+		ArrayList<JSONObject> res = new ArrayList<JSONObject>();
 		Connection conn = null;
 		PreparedStatement stmnt = null;
 		ResultSet rs= null;
@@ -92,10 +92,10 @@ public class SalaDAO {
 				}
 				
 				Sala s = new Sala(id1, naziv, listaTipovaProjekcija);
-				JSONObject res = new JSONObject();
-				res.put("ID", s.getId());
-				res.put("Naziv", s.getNaziv());
-				res.put("MaksimumSedista", brMaksimalnoSjedista(String.valueOf(s.getId())));
+				JSONObject sala = new JSONObject();
+				sala.put("ID", s.getId());
+				sala.put("Naziv", s.getNaziv());
+				sala.put("MaksimumSedista", brMaksimalnoSjedista(String.valueOf(s.getId())));
 				
 				ArrayList<JSONObject> tp = new ArrayList<JSONObject>();
 				
@@ -105,8 +105,8 @@ public class SalaDAO {
 					tipJson.put("Naziv", tipProj.getNaziv());
 					tp.add(tipJson);				
 					}
-				res.put("listaTipova", tp);	
-				sale.add(res);
+				sala.put("listaTipova", tp);	
+				res.add(sala);
 			}
 			
 		}
@@ -116,7 +116,7 @@ public class SalaDAO {
 		finally {
 			ConnectionManager.close(conn, stmnt, rs);
 		}
-		return sale;
+		return res;
 	}
 
 	public int brMaksimalnoSjedista(String idSale) {

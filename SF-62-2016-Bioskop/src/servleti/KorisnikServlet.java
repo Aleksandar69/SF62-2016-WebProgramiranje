@@ -109,11 +109,9 @@ public class KorisnikServlet extends HttpServlet {
 	private JSONObject filtrirajKorisnike(HttpServletRequest request) {
 		JSONObject res = new JSONObject();
 		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String datum = request.getParameter("datum");
 		String tip = request.getParameter("tip");
 		
-		res = korisnikDAO.filtrirajKorisnike(username, password, datum, tip);
+		res = korisnikDAO.filtrirajKorisnike(username, tip);
 		return res;
 	}
 	

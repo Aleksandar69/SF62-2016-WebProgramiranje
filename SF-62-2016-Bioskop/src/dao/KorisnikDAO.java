@@ -420,7 +420,7 @@ public class KorisnikDAO {
 		return status;
 	}
 	
-	public JSONObject filtrirajKorisnike(String korIme,String lozinka,String datum,String tipKor) {		
+	public JSONObject filtrirajKorisnike(String korIme,String tipKor) {		
 		JSONObject res = new JSONObject();
 		ArrayList<JSONObject> korisnici = new ArrayList<JSONObject>();
 
@@ -434,13 +434,11 @@ public class KorisnikDAO {
 			conn = ConnectionManager.getConnection();
 
 			String query = "SELECT ID, Username,Password,DatumRegistracije,Uloga,Status FROM Users"
-					+ " WHERE Username LIKE ? AND Password LIKE ? AND DatumRegistracije LIKE ? AND Uloga LIKE ?";
+					+ " WHERE Username LIKE ? AND Uloga LIKE ?";
 
 			stmnt = conn.prepareStatement(query);
 			stmnt.setString(1, "%" +korIme+ "%");
-			stmnt.setString(2, "%"+lozinka+"%");
-			stmnt.setString(3, "%"+datum+"%");
-			stmnt.setString(4, "%"+tipKor+"%");
+			stmnt.setString(2, "%"+tipKor+"%");
 			
 			rs = stmnt.executeQuery();
 			

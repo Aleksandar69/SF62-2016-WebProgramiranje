@@ -7,7 +7,7 @@ body::before{
     top: 0;
     left: 0;
     background-size: cover;
-    opacity: 0.03;
+    opacity: 0.3;
     z-index: -1;
 }
 body{
@@ -55,7 +55,7 @@ select{
   text-decoration: underline;
 }
 .logregdiv{
-	background-color: #0c101e;
+	background-color: #4d004d;
     color: #d0d0d0;
     border-radius: 20px;
     margin-top: 15%;
