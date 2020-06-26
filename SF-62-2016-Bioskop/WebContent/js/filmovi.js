@@ -4,6 +4,8 @@ var params = {
 }
 
 
+
+
 $.post("FilmoviServlet", params, function(data){
 	
 	let res = JSON.parse(data);
@@ -23,8 +25,11 @@ $.post("FilmoviServlet", params, function(data){
 				dugmicitamoneki = "<span class='pogledajMovie' data-movieID='"+film.ID+"'></span>"
 			}
 			tr.innerHTML = "<td class='movie_name' data-filmid='"+film.ID+"'>"+film.Naziv+"</td><td>"+film.Trajanje+"</td><td>"+film.Zanrovi+"</td><td>"+film.Godina_Proizvodnje+"</td><td>"+film.Distributer+"</td><td>"+film.Zemlja_Porekla+"</td><td>"+dugmicitamoneki+"</td>";
-			tabelaFilm.appendChild(tr);
+			tabelaFilm.appendChild(tr);		
 		}
+		
+		
+		
 		$(".pogledajMovie").on("click", function(){
 			let id= this.getAttribute("data-movieID");
 			if(id>0 && id!=null && id!=undefined){
@@ -72,6 +77,22 @@ var params = {
 	$.post('FilmoviServlet', params, function(data) {
 		let res = JSON.parse(data);
 		if(res.status){
+			
+			var divDugmici = document.getElementById("dugmiciFilm");
+			var div = document.createElement("div");
+			var button = document.createElement("BUTTON");
+			button.className = "confirmbtn";
+			button.textContent = "Dodaj";
+			
+			if(localStorage['uloga'] == 'Admin'){
+				divDugmici.appendChild(div);
+				div.appendChild(button)
+				
+				button.onclick = function(){
+					window.location.href="dodajIzmijeniFilm.html";
+				};
+			}
+			
 			for(i=0;i<res.zanrovi.length;i++){
 				let op = document.createElement('option');
 				op.value=res.zanrovi[i];

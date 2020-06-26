@@ -14,14 +14,15 @@ public class ConnectionManager {
 	public static final String DATABASE_NAZIV = "Bioskop.db";
 	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
 
-	/*
-	 * public static final String WINDOWS_PATH = "C:" + FILE_SEPARATOR + "gitWeb" +
-	 * FILE_SEPARATOR + "SF-62-2016-WebProgramiranje" + FILE_SEPARATOR +
-	 * "SF-62-2016-Bioskop" + FILE_SEPARATOR + "sql-script" + FILE_SEPARATOR +
-	 * DATABASE_NAZIV;
-	 */
 	
-	public static final String WINDOWS_PATH = "D:" + FILE_SEPARATOR + DATABASE_NAZIV;
+	  public static final String WINDOWS_PATH = "C:" + FILE_SEPARATOR + "gitWeb" +
+	 FILE_SEPARATOR + "SF62-2016-WebProgramiranje" + FILE_SEPARATOR +
+	  "SF-62-2016-Bioskop" + FILE_SEPARATOR + "sql-script" + FILE_SEPARATOR +
+	  DATABASE_NAZIV;
+	  
+	 
+	
+	/*public static final String WINDOWS_PATH = "D:" + FILE_SEPARATOR + DATABASE_NAZIV;*/
 	private static final String LINUX_PATH = "SQLite" + FILE_SEPARATOR + DATABASE_NAZIV;
 
 	private static final String PATH = WINDOWS_PATH;
@@ -29,6 +30,7 @@ public class ConnectionManager {
 	private static DataSource dataSource;
 
 	public static void open() {
+		System.out.println(WINDOWS_PATH);
 		try {
 			System.out.println("Konekcija s bazom otvorena");
 			System.out.println(PATH);
