@@ -2,7 +2,7 @@
   text-align: center;
   margin: 0 auto;
   color: #d0d0d0;
-  background: #0c101e;
+  background: #4d004d;
   margin-top: 100px;
   border-radius: 10px;
   overflow: hidden;
@@ -28,4 +28,8 @@
 .izvestajlink{
   text-decoration: underline;
   font-size: 22px;
+}
+
+#vreme{
+	background-color: rgba(102, 0, 51, 0.5)
 }
