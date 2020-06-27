@@ -199,6 +199,10 @@ public class KarteServlet extends HttpServlet {
 						message = "Uspjesno ste obrisali kartu";
 					}
 				}
+				else {
+					message = "Mozete obrisati samo karte koje jos nisu iskoristene." ;
+					status = false;
+				}
 			} catch(Exception e) {
 				e.printStackTrace();
 				status = false;
