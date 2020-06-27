@@ -29,13 +29,13 @@ var params = {
 	        }
 	      }
 	      if(!stanje){
-	        localStorage['poruka']="red|Desila se greska2, molimo Vas da pokusate kasnije";
-	  			window.location.href="index.html";
+	    	  localStorage['poruka']="red|Desila se greska, molimo Vas da pokusate kasnije";
+	  			window.location.href="projekcije.html";
 	      }
 			}
 			else{
 				localStorage['poruka']="red|Desila se greska, molimo Vas da pokusate kasnije";
-				window.location.href="index.html";
+				window.location.href="projekcije.html";
 			}
 	});
 
