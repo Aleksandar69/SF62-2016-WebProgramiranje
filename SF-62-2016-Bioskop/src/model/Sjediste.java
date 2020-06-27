@@ -4,10 +4,7 @@ public class Sjediste {
 	
 	private int RedniBroj;
 	private int salaId;
-	public int getRedniBroj() {
-		return RedniBroj;
-	}
-	
+
 	public Sjediste() {
 	}
 	
@@ -26,6 +23,9 @@ public class Sjediste {
 	}
 	public void setSala(int salaId) {
 		this.salaId = salaId;
+	}
+	public int getRedniBroj() {
+		return RedniBroj;
 	}
 	
 	
