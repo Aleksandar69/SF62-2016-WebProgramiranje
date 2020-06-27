@@ -289,5 +289,34 @@ public class ProjekcijeDAO {
 		return status;
 		
 	}
+	
+	public boolean povecajStanjeKarata(String projekcijaID) {
+		boolean status = false;
+		
+		Connection conn = null;
+		PreparedStatement stmnt = null;
+		
+		try {
+			conn = ConnectionManager.getConnection();
+			
+			String query = "UPDATE Projekcije SET BrojProdanihKarata=BrojProdanihKarata-1 WHERE ID=?";
+
+			stmnt = conn.prepareStatement(query);
+			stmnt.setString(1, projekcijaID);
+			
+			int red =stmnt.executeUpdate();
+			if(red > 0) {
+				status = true;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close(conn, stmnt, null);
+		}
+		return status;
+		
+	}
+	
 
 }

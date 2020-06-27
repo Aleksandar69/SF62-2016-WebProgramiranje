@@ -197,6 +197,7 @@ public class KarteServlet extends HttpServlet {
 					status = kartaDAO.obrisiKartu(idKarte);
 					if(status) {
 						message = "Uspjesno ste obrisali kartu";
+						projDAO.povecajStanjeKarata(karta.getProjekcija());
 					}
 				}
 				else {
