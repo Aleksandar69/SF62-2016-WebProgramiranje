@@ -604,9 +604,7 @@ public class KorisnikDAO {
 		
 	}
 	finally {
-		try {stmnt.close();} catch (Exception ex1) {ex1.printStackTrace();}
-		try {rs.close();} catch (Exception ex1) {ex1.printStackTrace();}
-		try {conn.close();} catch (Exception ex1) {ex1.printStackTrace();}
+		ConnectionManager.close(conn, stmnt, rs);
 	}
 		return broj;
 	}

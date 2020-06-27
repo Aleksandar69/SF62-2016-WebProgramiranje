@@ -63,16 +63,7 @@ $("#saveUser").on('click',function(){
 	var novasifra = $("#user_pass").val();
 	var novaUloga = $("#user_ulogaselect").val();
 
-/*	var promenjenaSifra = true;
-	var novasifra = $("#user_pass").val();
-	if(novasifra=="" || novasifra==null || novasifra==undefined){
-		promenjenaSifra = false;
-	}
-	var promenjenaUloga = false;
-	var novaUloga = $("#user_ulogaselect").val();
-	if(localStorage['uloga']=="Admin"){
-		promenjenaUloga = true;
-	}*/
+
 	
 	var params  = {
 			"action" : "editUser",
