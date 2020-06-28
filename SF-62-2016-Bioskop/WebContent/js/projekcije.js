@@ -64,6 +64,20 @@ var params = {
 $.post('ProjekcijeServlet',params,function(data){
     var odg = JSON.parse(data);
     if(odg.status){
+    	
+    	var dhDugmic = document.getElementById("thDugmic");
+		var button = document.createElement("BUTTON");
+		button.className = "confirmbtn";
+		button.textContent = "Dodaj";
+		
+		if(localStorage['uloga'] == 'Admin'){
+			thDugmic.appendChild(button);
+			
+			button.onclick = function(){
+				window.location.href="dodajProjekciju.html";
+			};
+		}
+    	
       for(i=0;i<odg.filmovi.length;i++){
         var f = odg.filmovi[i];
         var o = document.createElement('option');
